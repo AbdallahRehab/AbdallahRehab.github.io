@@ -10,8 +10,8 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // Verify that the title and role are present.
+    // Verify that the hero name and current role are present.
     expect(find.text('Abdallah Ali Rehab'), findsWidgets);
-    expect(find.text('Senior Mobile Developer'), findsWidgets);
+    expect(find.text('Senior Mobile Engineer · Flutter'), findsOneWidget);
   });
 }

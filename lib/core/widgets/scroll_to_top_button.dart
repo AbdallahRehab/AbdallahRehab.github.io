@@ -21,11 +21,10 @@ class ScrollToTopButton extends StatelessWidget {
           ? FloatingActionButton(
                   onPressed: onPressed,
                   backgroundColor: AppTheme.primaryColor(context),
-                  child: Icon(
+                  tooltip: 'Scroll to top',
+                  child: const Icon(
                     Icons.arrow_upward_rounded,
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white
-                        : Colors.white,
+                    color: Colors.white,
                   ),
                 )
                 .animate()

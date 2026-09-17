@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import '../theme/app_theme.dart';
 
 class PortfolioAppBar extends StatefulWidget {
@@ -20,110 +21,237 @@ class PortfolioAppBar extends StatefulWidget {
 }
 
 class _PortfolioAppBarState extends State<PortfolioAppBar> {
-  int? _hoveredIndex;
-
-  final List<String> _navItems = [
+  static const List<String> _navItems = [
     'Home',
     'About',
+    'Experience',
     'Skills',
     'Projects',
-    'Experience',
-    'Certificates',
     'Contact',
   ];
 
+  bool _mobileMenuOpen = false;
+
+  void _navigate(int index) {
+    setState(() => _mobileMenuOpen = false);
+    widget.onNavigate(index);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isWide = ResponsiveBreakpoints.of(context).largerThan(TABLET);
 
-    return Container(
-      height: 70,
-      decoration: BoxDecoration(
-        color: isDark
-            ? AppTheme.deepSpace.withOpacity(0.95)
-            : AppTheme.lightSurface.withOpacity(0.95),
-        border: Border(
-          bottom: BorderSide(
-            color: isDark
-                ? AppTheme.neonCyan.withOpacity(0.2)
-                : AppTheme.accentCyan.withOpacity(0.2),
-            width: 1,
+    return Material(
+      color: Colors.transparent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: 70,
+            decoration: BoxDecoration(
+              color: AppTheme.surfaceColor(context).withValues(alpha: 0.95),
+              border: Border(
+                bottom: BorderSide(
+                  color: AppTheme.primaryColor(context).withValues(alpha: 0.2),
+                ),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(
+                    alpha: widget.isDarkMode ? 0.3 : 0.1,
+                  ),
+                  blurRadius: 10,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: isWide
+                  ? _buildDesktopRow(context)
+                  : _buildMobileRow(context),
+            ),
           ),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(isDark ? 0.3 : 0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
+          if (!isWide && _mobileMenuOpen) _buildMobileMenu(context),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Row(
-          children: [
-            // Navigation Items
-            ...List.generate(_navItems.length, (index) {
-              final isActive = widget.activeIndex == index;
-              final isHovered = _hoveredIndex == index;
+    );
+  }
 
-              return MouseRegion(
-                onEnter: (_) => setState(() => _hoveredIndex = index),
-                onExit: (_) => setState(() => _hoveredIndex = null),
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: () => widget.onNavigate(index),
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: isActive
-                              ? (isDark
-                                    ? AppTheme.neonCyan
-                                    : AppTheme.accentCyan)
-                              : Colors.transparent,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      _navItems[index],
-                      style: TextStyle(
-                        color: isActive
-                            ? (isDark ? AppTheme.neonCyan : AppTheme.accentCyan)
-                            : isHovered
-                            ? (isDark ? AppTheme.neonPink : AppTheme.accentPink)
-                            : (isDark
-                                  ? Colors.white70
-                                  : AppTheme.lightText.withOpacity(0.7)),
-                        fontSize: 16,
-                        fontWeight: isActive
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                      ),
-                    ),
+  Widget _buildDesktopRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        ...List.generate(
+          _navItems.length,
+          (index) => _NavLink(
+            label: _navItems[index],
+            isActive: widget.activeIndex == index,
+            onTap: () => _navigate(index),
+          ),
+        ),
+        const SizedBox(width: 8),
+        _ThemeToggle(
+          isDarkMode: widget.isDarkMode,
+          onPressed: widget.onThemeToggle,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMobileRow(BuildContext context) {
+    final textColor = AppTheme.textColor(context);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Semantics(
+          button: true,
+          label: _mobileMenuOpen
+              ? 'Close navigation menu'
+              : 'Open navigation menu',
+          child: IconButton(
+            onPressed: () => setState(() => _mobileMenuOpen = !_mobileMenuOpen),
+            icon: Icon(
+              _mobileMenuOpen ? Icons.close : Icons.menu_rounded,
+              color: textColor,
+            ),
+          ),
+        ),
+        _ThemeToggle(
+          isDarkMode: widget.isDarkMode,
+          onPressed: widget.onThemeToggle,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMobileMenu(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: AppTheme.surfaceColor(context).withValues(alpha: 0.98),
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: List.generate(_navItems.length, (index) {
+          final isActive = widget.activeIndex == index;
+          return Semantics(
+            button: true,
+            label: _navItems[index],
+            child: InkWell(
+              onTap: () => _navigate(index),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
+                child: Text(
+                  _navItems[index],
+                  style: TextStyle(
+                    color: isActive
+                        ? AppTheme.primaryColor(context)
+                        : AppTheme.textColor(context),
+                    fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                    fontSize: 16,
                   ),
                 ),
-              );
-            }),
-            const SizedBox(width: 16),
-            // Theme Toggle Button
-            IconButton(
-              onPressed: widget.onThemeToggle,
-              icon: Icon(
-                isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
-                color: isDark ? AppTheme.neonCyan : AppTheme.accentCyan,
               ),
-              tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
             ),
-          ],
+          );
+        }),
+      ),
+    );
+  }
+}
+
+class _NavLink extends StatefulWidget {
+  final String label;
+  final bool isActive;
+  final VoidCallback onTap;
+
+  const _NavLink({
+    required this.label,
+    required this.isActive,
+    required this.onTap,
+  });
+
+  @override
+  State<_NavLink> createState() => _NavLinkState();
+}
+
+class _NavLinkState extends State<_NavLink> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = AppTheme.primaryColor(context);
+    final secondaryAccent = AppTheme.secondaryColor(context);
+    final baseColor = AppTheme.textColorSecondary(context);
+
+    final color = widget.isActive
+        ? accent
+        : _isHovered
+        ? secondaryAccent
+        : baseColor;
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: Semantics(
+        button: true,
+        label: widget.label,
+        child: InkWell(
+          onTap: widget.onTap,
+          focusColor: accent.withValues(alpha: 0.1),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOut,
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            transform: Matrix4.identity()
+              ..translateByDouble(0.0, _isHovered ? -1.0 : 0.0, 0.0, 1.0),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: widget.isActive
+                      ? accent
+                      : (_isHovered
+                            ? color.withValues(alpha: 0.4)
+                            : Colors.transparent),
+                  width: 2,
+                ),
+              ),
+            ),
+            child: AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 200),
+              style: TextStyle(
+                color: color,
+                fontSize: 15,
+                fontWeight: widget.isActive ? FontWeight.w600 : FontWeight.w400,
+              ),
+              child: Text(widget.label),
+            ),
+          ),
         ),
       ),
+    );
+  }
+}
+
+class _ThemeToggle extends StatelessWidget {
+  final bool isDarkMode;
+  final VoidCallback onPressed;
+
+  const _ThemeToggle({required this.isDarkMode, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(
+        isDarkMode ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+        color: AppTheme.primaryColor(context),
+      ),
+      tooltip: isDarkMode ? 'Switch to light mode' : 'Switch to dark mode',
     );
   }
 }

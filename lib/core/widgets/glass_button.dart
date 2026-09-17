@@ -20,62 +20,88 @@ class GlassButton extends StatefulWidget {
 }
 
 class _GlassButtonState extends State<GlassButton> {
-  bool _isHovered = false;
+  bool _hovered = false;
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: GestureDetector(
-        onTap: widget.onPressed,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          decoration: BoxDecoration(
-            color: widget.isPrimary
-                ? AppTheme.neonCyan.withOpacity(_isHovered ? 0.2 : 0.1)
-                : Colors.white.withOpacity(_isHovered ? 0.1 : 0.05),
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(
-              color: widget.isPrimary
-                  ? AppTheme.neonCyan.withOpacity(0.5)
-                  : Colors.white.withOpacity(0.2),
-              width: 1.5,
+    final accent = AppTheme.primaryColor(context);
+    final onSurface = AppTheme.textColor(context);
+    final foreground = widget.isPrimary ? accent : onSurface;
+
+    return Semantics(
+      button: true,
+      label: widget.text,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() => _hovered = false),
+        child: AnimatedScale(
+          scale: _hovered ? 1.04 : 1.0,
+          duration: const Duration(milliseconds: 180),
+          curve: Curves.easeOut,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOut,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              boxShadow: _hovered
+                  ? [
+                      BoxShadow(
+                        color: accent.withValues(
+                          alpha: widget.isPrimary ? 0.35 : 0.15,
+                        ),
+                        blurRadius: 24,
+                        spreadRadius: 1,
+                      ),
+                    ]
+                  : const [],
             ),
-            boxShadow: _isHovered
-                ? [
-                    BoxShadow(
+            child: Material(
+              color: widget.isPrimary
+                  ? accent.withValues(alpha: 0.1)
+                  : onSurface.withValues(alpha: 0.05),
+              borderRadius: BorderRadius.circular(30),
+              child: InkWell(
+                onTap: widget.onPressed,
+                borderRadius: BorderRadius.circular(30),
+                focusColor: accent.withValues(alpha: 0.18),
+                hoverColor: accent.withValues(alpha: 0.12),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  curve: Curves.easeOut,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
                       color: widget.isPrimary
-                          ? AppTheme.neonCyan.withOpacity(0.3)
-                          : Colors.white.withOpacity(0.1),
-                      blurRadius: 20,
-                      spreadRadius: 2,
+                          ? accent.withValues(alpha: _hovered ? 0.9 : 0.5)
+                          : onSurface.withValues(alpha: _hovered ? 0.35 : 0.2),
+                      width: 1.5,
                     ),
-                  ]
-                : [],
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (widget.icon != null) ...[
-                Icon(
-                  widget.icon,
-                  color: widget.isPrimary ? AppTheme.neonCyan : Colors.white,
-                  size: 20,
-                ),
-                const SizedBox(width: 8),
-              ],
-              Text(
-                widget.text,
-                style: TextStyle(
-                  color: widget.isPrimary ? AppTheme.neonCyan : Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (widget.icon != null) ...[
+                        Icon(widget.icon, color: foreground, size: 20),
+                        const SizedBox(width: 8),
+                      ],
+                      Text(
+                        widget.text,
+                        style: TextStyle(
+                          color: foreground,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),

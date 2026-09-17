@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/theme/app_theme.dart';
@@ -8,7 +7,6 @@ import 'core/widgets/portfolio_app_bar.dart';
 import 'core/widgets/responsive_layout.dart';
 import 'core/widgets/scroll_to_top_button.dart';
 import 'features/about/about_section.dart';
-import 'features/about/certificates_section.dart';
 import 'features/about/timeline_section.dart';
 import 'features/contact/contact_section.dart';
 import 'features/home/widgets/hero_section.dart';
@@ -57,7 +55,7 @@ class _PortfolioAppState extends State<PortfolioApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Abdallah Ali Rehab | Senior Mobile Developer',
+      title: 'Abdallah Ali Rehab | Senior Mobile Engineer, Flutter',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
@@ -86,10 +84,9 @@ class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _homeKey = GlobalKey();
   final GlobalKey _aboutKey = GlobalKey();
+  final GlobalKey _experienceKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
   final GlobalKey _projectsKey = GlobalKey();
-  final GlobalKey _experienceKey = GlobalKey();
-  final GlobalKey _certificatesKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
 
   int _activeSection = 0;
@@ -117,10 +114,9 @@ class _HomePageState extends State<HomePage> {
     final keys = [
       _homeKey,
       _aboutKey,
+      _experienceKey,
       _skillsKey,
       _projectsKey,
-      _experienceKey,
-      _certificatesKey,
       _contactKey,
     ];
 
@@ -145,10 +141,9 @@ class _HomePageState extends State<HomePage> {
     final keys = [
       _homeKey,
       _aboutKey,
+      _experienceKey,
       _skillsKey,
       _projectsKey,
-      _experienceKey,
-      _certificatesKey,
       _contactKey,
     ];
 
@@ -170,7 +165,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _scrollToContact() {
-    _scrollToSection(6); // Contact is index 6
+    _scrollToSection(5); // Contact is the last nav index
   }
 
   @override
@@ -203,10 +198,9 @@ class _HomePageState extends State<HomePage> {
                         onContactPressed: _scrollToContact,
                       ),
                       AboutSection(key: _aboutKey),
+                      TimelineSection(key: _experienceKey),
                       TechStackSection(key: _skillsKey),
                       ProjectsSection(key: _projectsKey),
-                      TimelineSection(key: _experienceKey),
-                      CertificatesSection(key: _certificatesKey),
                       ContactSection(key: _contactKey),
                       const Footer(),
                     ],

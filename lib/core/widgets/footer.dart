@@ -9,19 +9,22 @@ class Footer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 40),
       decoration: BoxDecoration(
-        border: Border(top: BorderSide(color: Colors.white.withOpacity(0.1))),
+        border: Border(top: BorderSide(color: AppTheme.borderColor(context))),
       ),
       child: Column(
         children: [
           Text(
             '© ${DateTime.now().year} Abdallah Ali Rehab. All rights reserved.',
-            style: const TextStyle(color: Colors.white54, fontSize: 14),
+            style: TextStyle(
+              color: AppTheme.textColorSecondary(context),
+              fontSize: 14,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             'Built with Flutter Web',
             style: TextStyle(
-              color: AppTheme.neonCyan.withOpacity(0.7),
+              color: AppTheme.primaryColor(context).withValues(alpha: 0.7),
               fontSize: 12,
             ),
           ),

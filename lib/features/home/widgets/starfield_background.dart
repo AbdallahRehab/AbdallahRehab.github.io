@@ -1,76 +1,53 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
-class StarfieldBackground extends StatefulWidget {
+/// A single, precomputed starfield. Deliberately static (no ticker, no
+/// per-frame repaint) — the animated 200-star version cost continuous
+/// CPU/GPU work for a purely decorative background, which works against
+/// both performance and the "avoid distracting backgrounds" design goal.
+/// Only visible in dark mode; the light theme reads better on a plain
+/// surface.
+class StarfieldBackground extends StatelessWidget {
   const StarfieldBackground({super.key});
 
-  @override
-  State<StarfieldBackground> createState() => _StarfieldBackgroundState();
-}
+  static final List<Star> _stars = _generateStars(90);
 
-class _StarfieldBackgroundState extends State<StarfieldBackground>
-    with SingleTickerProviderStateMixin {
-  late Ticker _ticker;
-  final List<Star> _stars = [];
-  final Random _random = Random();
-
-  @override
-  void initState() {
-    super.initState();
-    _ticker = createTicker(_onTick)..start();
-    // Initialize stars
-    for (int i = 0; i < 200; i++) {
-      _stars.add(_generateStar());
-    }
-  }
-
-  Star _generateStar() {
-    return Star(
-      x: _random.nextDouble(),
-      y: _random.nextDouble(),
-      size: _random.nextDouble() * 2 + 0.5,
-      speed: _random.nextDouble() * 0.0005 + 0.0001,
-      opacity: _random.nextDouble(),
+  static List<Star> _generateStars(int count) {
+    final random = Random(42);
+    return List.generate(
+      count,
+      (_) => Star(
+        x: random.nextDouble(),
+        y: random.nextDouble(),
+        size: random.nextDouble() * 1.6 + 0.4,
+        opacity: random.nextDouble() * 0.5 + 0.15,
+      ),
     );
-  }
-
-  void _onTick(Duration elapsed) {
-    setState(() {
-      for (var star in _stars) {
-        star.y += star.speed;
-        if (star.y > 1.0) {
-          star.y = 0.0;
-          star.x = _random.nextDouble();
-        }
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _ticker.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(painter: StarPainter(_stars), size: Size.infinite);
+    if (Theme.of(context).brightness != Brightness.dark) {
+      return const SizedBox.shrink();
+    }
+    return IgnorePointer(
+      child: RepaintBoundary(
+        child: CustomPaint(painter: StarPainter(_stars), size: Size.infinite),
+      ),
+    );
   }
 }
 
 class Star {
-  double x;
-  double y;
-  double size;
-  double speed;
-  double opacity;
+  final double x;
+  final double y;
+  final double size;
+  final double opacity;
 
-  Star({
+  const Star({
     required this.x,
     required this.y,
     required this.size,
-    required this.speed,
     required this.opacity,
   });
 }
@@ -78,14 +55,14 @@ class Star {
 class StarPainter extends CustomPainter {
   final List<Star> stars;
 
-  StarPainter(this.stars);
+  const StarPainter(this.stars);
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..color = Colors.white;
 
-    for (var star in stars) {
-      paint.color = Colors.white.withOpacity(star.opacity);
+    for (final star in stars) {
+      paint.color = Colors.white.withValues(alpha: star.opacity);
       canvas.drawCircle(
         Offset(star.x * size.width, star.y * size.height),
         star.size,
@@ -95,5 +72,5 @@ class StarPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant StarPainter oldDelegate) => false;
 }

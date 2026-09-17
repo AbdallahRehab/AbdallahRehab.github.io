@@ -1,41 +1,17 @@
 {
-  "name": "Abdallah Ali Rehab",
-  "role": "Senior Mobile Developer",
-  "tagline": "Crafting futuristic mobile experiences with Flutter.",
-  "email": "abdorehab95@gmail.com",
-  "phone": "+20 01559292997",
-  "whatsapp": "https://wa.me/2001559292997",
-  "socials": {
-    "linkedin": "https://www.linkedin.com/in/abdallah-ali-rehab-a71246153",
-    "facebook": "https://www.facebook.com/abdo.rehab.58/",
-    "twitter": "https://x.com/abdallahrehab2",
-    "github": "https://github.com/AbdallahRehab"
-  },
-  "about": {
-    "bio": "Results-driven Senior Mobile Developer with 5+ years of experience delivering high-performance Flutter applications for iOS and Android. Proven expertise in leading full-cycle development from architecture design to deployment, building enterprise-grade apps with over 3M active users.",
-    "achievements": [
-      "Led Doam (1.2M+ users)",
-      "+3M active users across projects",
-      "Improved performance by up to 60%"
-    ]
-  },
-  "skills": [
-    "Flutter",
-    "Dart",
-    "Firebase",
-    "Android",
-    "iOS",
-    "REST/API",
-    "CI/CD",
-    "Bloc",
-    "Riverpod",
-    "Clean Architecture"
-  ],
   "projects": [
     {
       "name": "WalaOne",
-      "description": "Loyalty & Rewards App. Revamped app performance, achieving 60% faster load time; implemented caching, modular architecture, and unit testing (90% coverage).",
-      "tags": ["Flutter", "Loyalty", "Performance"],
+      "tagline": "Loyalty & Rewards App",
+      "context": "Loyalty & rewards app for WalaPlus, part of a product suite serving 3M+ users across the loyalty ecosystem with 4.5+ app store ratings.",
+      "challenge": "Slow load times and a monolithic codebase were limiting growth and making new features costly to ship.",
+      "contribution": "Owned performance and architecture work — introduced caching, refactored core modules into a modular architecture, and built out unit test coverage.",
+      "impact": [
+        "60% faster load times",
+        "90% unit test coverage",
+        "4.5+ app store rating"
+      ],
+      "technologies": ["Flutter", "Dart", "Modular Architecture", "Caching", "Unit Testing"],
       "links": {
         "ios": "https://apps.apple.com/us/app/walaone-%D9%88%D9%84%D8%A7%D8%A1-%D9%88%D9%86/id1543623568",
         "android": "https://play.google.com/store/apps/details?id=com.walaplus.walaplusone&hl=ar&pli=1"
@@ -43,17 +19,48 @@
     },
     {
       "name": "Doam",
-      "description": "Public Sector Rewards Platform. Developed for public sector employees in partnership with the Ministry of Human Resources, serving 1.2M+ users. Initiated and led the development from scratch, designing the architecture, setting up CI/CD pipelines, and defining coding standards to ensure scalability and maintainability.",
-      "tags": ["Flutter", "Government", "Scale"],
+      "tagline": "Public-Sector Rewards Platform",
+      "context": "Public-sector rewards platform built in partnership with Saudi Arabia's Ministry of Human Resources, serving 1.2M+ government employees.",
+      "challenge": "The product had to be built from zero — architecture, delivery pipeline, and engineering standards all had to be established for a high-stakes government partnership.",
+      "contribution": "Initiated and led development from scratch: designed the app architecture, set up CI/CD pipelines, and defined coding standards for the team.",
+      "impact": [
+        "1.2M+ users onboarded",
+        "Delivered as a greenfield, production-grade platform",
+        "CI/CD pipeline reduced release friction"
+      ],
+      "technologies": ["Flutter", "Dart", "CI/CD", "Clean Architecture"],
       "links": {
         "ios": "https://apps.apple.com/us/app/doam-%D8%AF%D9%88%D9%85/id1635571318",
         "android": "https://play.google.com/store/apps/details?id=com.walaplus.erfan"
       }
     },
     {
+      "name": "Saudi German Health",
+      "tagline": "Healthcare Mobile App",
+      "context": "Large-scale healthcare mobile application for Saudi German Health, a leading hospital group — the current engagement at MEGAMIND IT Solutions.",
+      "challenge": "A legacy codebase and healthcare-grade reliability requirements meant stability and compliance had to be prioritized alongside feature velocity.",
+      "contribution": "Leading Flutter development, refactoring and modularizing the legacy codebase, implementing CI/CD and automated testing, and applying healthcare-grade security practices.",
+      "impact": [
+        "~40% overall performance improvement",
+        "Faster, more reliable release cycles via CI/CD",
+        "Healthcare-grade security hardening"
+      ],
+      "technologies": ["Flutter", "CI/CD", "Secure Storage", "Encrypted Communication"],
+      "links": {}
+    },
+    {
       "name": "WalaPlus",
-      "description": "Loyalty & Rewards App. Enhanced performance by implementing caching and API optimizations, achieving 40% faster load times. Implemented unit testing (Mocktail) with 60% coverage, reducing bug reports by 50%, and applied modular architecture and advanced security measures to improve maintainability and protect against reverse engineering and MiM attacks.",
-      "tags": ["Flutter", "Security", "Optimization"],
+      "tagline": "Loyalty & Rewards App",
+      "context": "The original WalaPlus loyalty and rewards app for employees and customers, part of the 3M+-user product suite.",
+      "challenge": "Performance and security needed to be strengthened without disrupting a live, high-traffic app.",
+      "contribution": "Implemented caching and API optimizations, added Mocktail-based unit testing, and applied a threat model to harden the app against reverse engineering and man-in-the-middle attacks.",
+      "impact": [
+        "40% faster load times",
+        "60% unit test coverage",
+        "50% fewer bug reports",
+        "Hardened against reverse engineering & MiTM attacks"
+      ],
+      "technologies": ["Flutter", "Mocktail", "Modular Architecture", "Application Security"],
       "links": {
         "ios": "https://apps.apple.com/us/app/walaplus-%D9%88%D9%84%D8%A7%D8%A1-%D8%A8%D9%84%D8%B3/id1034349338",
         "android": "https://play.google.com/store/apps/details?id=com.walaplus.androidapp"
@@ -61,12 +68,33 @@
     },
     {
       "name": "WEDDnGO",
-      "description": "Wedding Marketplace: Egypt's largest wedding marketplace; delivered booking and vendor management features; featured on Shark Tank Egypt.",
-      "tags": ["Flutter", "Marketplace", "E-commerce"],
+      "tagline": "Wedding Marketplace",
+      "context": "Egypt's largest wedding marketplace, connecting couples with service providers — featured on Shark Tank Egypt.",
+      "challenge": "The app needed vendor-facing and consumer-facing feature sets shipped reliably to support a fast-growing, newly-funded startup.",
+      "contribution": "Delivered vendor subscriptions, booking systems, and in-app payments, and optimized load times and responsiveness across the app.",
+      "impact": [
+        "Helped secure Shark Tank Egypt funding",
+        "Shipped booking, subscription & payments features",
+        "Improved load times & responsiveness"
+      ],
+      "technologies": ["Flutter", "In-App Payments", "Booking Systems"],
       "links": {
         "ios": "https://weddngo.com/en/",
         "android": "https://play.google.com/store/search?q=weddngo&c=apps"
       }
+    },
+    {
+      "name": "PDentalCore",
+      "tagline": "Dental Practice Management (Freelance)",
+      "context": "Independent freelance project: a practice-management app for dental professionals.",
+      "challenge": "Dental practices needed one tool to manage clinical and financial workflows instead of juggling separate systems.",
+      "contribution": "Designed and built the app end-to-end — appointments, patient records, X-rays, medications, surgeries, and clinical notes, plus revenue/expense tracking.",
+      "impact": [
+        "End-to-end freelance delivery, from design to release",
+        "Consolidated clinical & financial workflows in one app"
+      ],
+      "technologies": ["Flutter", "Dart", "Local Storage"],
+      "links": {}
     }
   ]
 }

@@ -100,7 +100,7 @@ class _ContactSectionState extends State<ContactSection> {
               Container(
                 padding: const EdgeInsets.all(32),
                 decoration: BoxDecoration(
-                  color: AppTheme.surfaceColor(context).withOpacity(0.5),
+                  color: AppTheme.cardColor(context),
                   borderRadius: BorderRadius.circular(24),
                   border: Border.all(color: AppTheme.borderColor(context)),
                 ),
@@ -183,7 +183,7 @@ class _ContactSectionState extends State<ContactSection> {
         labelStyle: TextStyle(color: AppTheme.textColorSecondary(context)),
         prefixIcon: Icon(icon, color: AppTheme.primaryColor(context)),
         filled: true,
-        fillColor: AppTheme.borderColor(context).withOpacity(0.5),
+        fillColor: AppTheme.borderColor(context).withValues(alpha: 0.5),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,

@@ -1,6 +1,6 @@
 # Abdallah Ali Rehab Portfolio
 
-A futuristic, space-themed personal portfolio website built with Flutter Web, designed to showcase the work and experience of a Senior Mobile Developer.
+A premium personal portfolio website built with Flutter Web, showcasing the work and experience of Abdallah Ali Rehab, Senior Mobile Engineer (Flutter).
 
 ## 🌟 Live Demo
 
@@ -8,58 +8,45 @@ A futuristic, space-themed personal portfolio website built with Flutter Web, de
 
 ## ✨ Features
 
-### 🌌 Core Experience
-
-- **Space Theme**: Immersive animated starfield background with parallax effects, neon glows, and glassmorphism UI.
-- **Fully Responsive**: Adaptive layout that works seamlessly on Mobile, Tablet, and Desktop.
-- **Interactive Elements**: Hover effects, scroll animations, and dynamic transitions.
-- **High Performance**: Optimized assets, lazy loading, and smooth 60fps animations.
+- **Dark/Light Theme**: Fully theme-aware across every section, with the preference persisted via `shared_preferences`.
+- **Fully Responsive**: Adaptive layout for Mobile, Tablet, and Desktop, including a dedicated mobile navigation menu.
+- **Accessible Interactions**: Keyboard-focusable, semantically labeled buttons and nav links (not just mouse-only gesture detectors).
+- **Case-Study Projects**: Each project is presented as a real case study — context, challenge, contribution, impact, and technologies — not just a name and screenshot.
 
 ### 🚀 Sections
 
-1. **Hero Section**:
-   - Animated entrance with floating rocket.
-   - Quick access to CV download and contact.
-2. **About Me**:
-   - Professional bio and key achievement statistics.
-3. **Tech Stack**:
-   - Animated floating icons representing skills (Flutter, Dart, Firebase, etc.).
-4. **Projects**:
-   - Interactive grid of project cards.
-   - Detailed modal views with project descriptions, tech tags, and store links.
-5. **Experience Timeline**:
-   - Vertical visual timeline of career milestones.
-6. **Certificates**:
-   - Glowing badge-style cards for professional certifications.
-7. **Contact**:
-   - Futuristic contact form with validation.
-   - Direct social media links (LinkedIn, GitHub, WhatsApp).
+1. **Hero**: Name, role, a concise positioning statement, a scannable metrics strip, and CTAs for CV/contact.
+2. **About**: Evidence-based narrative (scale, performance, security, ownership) instead of generic bio copy.
+3. **Experience**: Reverse-chronological career timeline with measurable impact per role.
+4. **Skills**: Technologies grouped into meaningful categories (Architecture, Security, DevOps, AI-assisted engineering, etc.) rather than a flat icon list.
+5. **Projects**: Case-study cards that open into a detailed modal (context/challenge/contribution/impact/technologies/store links).
+6. **Contact**: Direct email form (`mailto:`) plus social links.
 
 ## 🛠️ Tech Stack
 
 - **Framework**: [Flutter Web](https://flutter.dev/multi-platform/web) (Stable Channel)
-- **State Management**: [Flutter Bloc](https://pub.dev/packages/flutter_bloc)
 - **Animations**: [Flutter Animate](https://pub.dev/packages/flutter_animate)
-- **Styling**: Custom Theme System & Glassmorphism
+- **Responsive Breakpoints**: [responsive_framework](https://pub.dev/packages/responsive_framework)
+- **Styling**: Custom theme system (`AppTheme`), no glassmorphism/heavy gradients
 - **Icons**: FontAwesome & Material Icons
-- **Typography**: Google Fonts (Outfit/Inter)
+- **Typography**: Google Fonts (Outfit)
 
 ## 📂 Project Structure
 
-```
+```text
 lib/
-├── config/             # App configuration
 ├── core/
-│   ├── theme/          # AppTheme, Colors, Typography
-│   └── widgets/        # Reusable widgets (GlassButton, SocialIcon, etc.)
+│   ├── theme/          # AppTheme (theme-aware color tokens)
+│   └── widgets/        # Reusable widgets (GlassButton, SocialIcon, PortfolioAppBar, etc.)
 ├── features/
-│   ├── home/           # Hero section, Starfield background
-│   ├── about/          # Bio, Timeline, Certificates
-│   ├── projects/       # Project grid and details modal
+│   ├── home/           # Hero section, Starfield background, Skills
+│   ├── about/          # About narrative, Experience timeline
+│   ├── projects/       # Project grid and case-study modal
 │   └── contact/        # Contact form
-├── data/               # Data models and repositories
-└── main.dart           # Entry point
+└── main.dart           # Entry point, section ordering, scroll/nav wiring
 ```
+
+Project case-study content lives in `assets/config.json` — update it to add/remove/edit projects without touching Dart code.
 
 ## 🚀 Getting Started
 
@@ -84,6 +71,7 @@ lib/
    ```
 
 3. **Run Locally**
+
    ```bash
    flutter run -d chrome
    ```
@@ -93,7 +81,7 @@ lib/
 ### GitHub Pages (Automated)
 
 This project is configured with GitHub Actions for automatic deployment.
-Any push to the `main` branch will trigger a build and deploy to the `gh-pages` branch.
+Any push to the `main` branch will trigger a build and deploy to GitHub Pages.
 
 **Manual Build:**
 
@@ -101,20 +89,11 @@ Any push to the `main` branch will trigger a build and deploy to the `gh-pages` 
 flutter build web --release --base-href "/"
 ```
 
-### Vercel
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Run `vercel deploy`
-3. Build Command: `flutter build web --release`
-4. Output Directory: `build/web`
-
 ## ⚙️ Customization
 
-You can easily update the portfolio content without touching the code by editing `assets/config.json`.
-
-- **Personal Info**: Name, Role, Bio
-- **Projects**: Add/Remove projects, update links
-- **Socials**: Update social media URLs
+- **Projects**: Add/remove/edit case studies in `assets/config.json` (context, challenge, contribution, impact, technologies, store links).
+- **Hero/About/Experience/Skills copy**: Edit directly in their respective widgets under `lib/features/`, since they're sourced from the CV rather than a shared config.
+- **Theme colors**: `lib/core/theme/app_theme.dart`.
 
 ## 📄 License
 
@@ -122,4 +101,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Built with 💙 and Flutter by [Abdallah Ali Rehab](https://github.com/AbdallahRehab)
+Built with Flutter by [Abdallah Ali Rehab](https://github.com/AbdallahRehab)

@@ -15,7 +15,10 @@ class AppTheme {
   static const Color lightSurface = Color(0xFFFFFFFF);
   static const Color lightText = Color(0xFF1A1A2E);
   static const Color lightTextSecondary = Color(0xFF5A5A6E);
-  static const Color accentCyan = Color(0xFF0097A7);
+  // Darkened from the original 0xFF0097A7 so text/icons set in this color
+  // clear WCAG AA contrast (~4.6:1) against a white surface, not just the
+  // 3:1 large-text minimum.
+  static const Color accentCyan = Color(0xFF007A87);
   static const Color accentPink = Color(0xFFD81B60);
   static const Color lightBorder = Color(0xFFE0E0E0);
 
@@ -52,7 +55,7 @@ class AppTheme {
 
   static Color borderColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark
-        ? Colors.white.withOpacity(0.1)
+        ? Colors.white.withValues(alpha: 0.1)
         : lightBorder;
   }
 
@@ -60,6 +63,22 @@ class AppTheme {
     return Theme.of(context).brightness == Brightness.dark
         ? spaceBlack
         : lightBackground;
+  }
+
+  /// Subtle translucent "glass" card fill used across sections.
+  static Color cardColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? deepSpace.withValues(alpha: 0.5)
+        : lightSurface;
+  }
+
+  /// Soft tinted background for chips/badges/icon wells.
+  static Color chipBackground(BuildContext context) {
+    return primaryColor(context).withValues(alpha: 0.1);
+  }
+
+  static Color chipBorder(BuildContext context) {
+    return primaryColor(context).withValues(alpha: 0.35);
   }
 
   static ThemeData get darkTheme {
