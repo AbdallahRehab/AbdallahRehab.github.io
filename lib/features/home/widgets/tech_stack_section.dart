@@ -82,16 +82,6 @@ class TechStackSection extends StatelessWidget {
         'Mocktail',
       ],
     ),
-    _SkillCategory(
-      icon: Icons.auto_awesome_rounded,
-      title: 'AI-Assisted Engineering',
-      skills: [
-        'AI-Assisted Coding & Debugging',
-        'AI-Assisted Refactoring',
-        'Architecture Brainstorming',
-        'Automated Test & Doc Generation',
-      ],
-    ),
   ];
 
   @override

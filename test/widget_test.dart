@@ -8,7 +8,11 @@ void main() {
     await tester.pumpWidget(
       const PortfolioApp(initialThemeMode: ThemeMode.dark),
     );
-    await tester.pumpAndSettle();
+    // Not pumpAndSettle(): the hero has a deliberately perpetual ambient
+    // animation (the orbiting background ring), so "settled" never happens.
+    // A couple of bounded pumps is enough for entrance fades to resolve.
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 2));
 
     // Verify that the hero name and current role are present.
     expect(find.text('Abdallah Ali Rehab'), findsWidgets);

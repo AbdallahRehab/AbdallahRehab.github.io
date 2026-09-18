@@ -9,9 +9,11 @@ import 'core/widgets/scroll_to_top_button.dart';
 import 'features/about/about_section.dart';
 import 'features/about/timeline_section.dart';
 import 'features/contact/contact_section.dart';
+import 'features/home/widgets/ai_assisted_section.dart';
 import 'features/home/widgets/hero_section.dart';
 import 'features/home/widgets/starfield_background.dart';
 import 'features/home/widgets/tech_stack_section.dart';
+import 'features/impact/impact_section.dart';
 import 'features/projects/projects_section.dart';
 
 void main() async {
@@ -91,6 +93,7 @@ class _HomePageState extends State<HomePage> {
 
   int _activeSection = 0;
   bool _showScrollToTop = false;
+  bool _isNavCompact = false;
 
   @override
   void initState() {
@@ -104,6 +107,13 @@ class _HomePageState extends State<HomePage> {
       setState(() => _showScrollToTop = true);
     } else if (_scrollController.offset <= 200 && _showScrollToTop) {
       setState(() => _showScrollToTop = false);
+    }
+
+    // Compact the navbar once the user has scrolled past the hero.
+    if (_scrollController.offset > 24 && !_isNavCompact) {
+      setState(() => _isNavCompact = true);
+    } else if (_scrollController.offset <= 24 && _isNavCompact) {
+      setState(() => _isNavCompact = false);
     }
 
     // Track active section
@@ -187,6 +197,7 @@ class _HomePageState extends State<HomePage> {
                 activeIndex: _activeSection,
                 onThemeToggle: widget.onThemeToggle,
                 isDarkMode: widget.themeMode == ThemeMode.dark,
+                isScrolled: _isNavCompact,
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -197,8 +208,10 @@ class _HomePageState extends State<HomePage> {
                         key: _homeKey,
                         onContactPressed: _scrollToContact,
                       ),
+                      const ImpactSection(),
                       AboutSection(key: _aboutKey),
                       TimelineSection(key: _experienceKey),
+                      const AiAssistedSection(),
                       TechStackSection(key: _skillsKey),
                       ProjectsSection(key: _projectsKey),
                       ContactSection(key: _contactKey),

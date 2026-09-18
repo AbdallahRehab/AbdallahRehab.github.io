@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import '../theme/app_theme.dart';
@@ -7,6 +8,7 @@ class PortfolioAppBar extends StatefulWidget {
   final int activeIndex;
   final VoidCallback onThemeToggle;
   final bool isDarkMode;
+  final bool isScrolled;
 
   const PortfolioAppBar({
     super.key,
@@ -14,6 +16,7 @@ class PortfolioAppBar extends StatefulWidget {
     required this.activeIndex,
     required this.onThemeToggle,
     required this.isDarkMode,
+    this.isScrolled = false,
   });
 
   @override
@@ -40,36 +43,53 @@ class _PortfolioAppBarState extends State<PortfolioAppBar> {
   @override
   Widget build(BuildContext context) {
     final isWide = ResponsiveBreakpoints.of(context).largerThan(TABLET);
+    final compact = widget.isScrolled;
 
     return Material(
       color: Colors.transparent,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            height: 70,
-            decoration: BoxDecoration(
-              color: AppTheme.surfaceColor(context).withValues(alpha: 0.95),
-              border: Border(
-                bottom: BorderSide(
-                  color: AppTheme.primaryColor(context).withValues(alpha: 0.2),
+          ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                sigmaX: compact ? 16 : 0,
+                sigmaY: compact ? 16 : 0,
+              ),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeOut,
+                height: compact ? 58 : 70,
+                decoration: BoxDecoration(
+                  color: AppTheme.surfaceColor(
+                    context,
+                  ).withValues(alpha: compact ? 0.75 : 0.95),
+                  border: Border(
+                    bottom: BorderSide(
+                      color: AppTheme.primaryColor(
+                        context,
+                      ).withValues(alpha: compact ? 0.28 : 0.2),
+                    ),
+                  ),
+                  boxShadow: compact
+                      ? [
+                          BoxShadow(
+                            color: Colors.black.withValues(
+                              alpha: widget.isDarkMode ? 0.3 : 0.1,
+                            ),
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
+                          ),
+                        ]
+                      : const [],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: isWide
+                      ? _buildDesktopRow(context)
+                      : _buildMobileRow(context),
                 ),
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(
-                    alpha: widget.isDarkMode ? 0.3 : 0.1,
-                  ),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: isWide
-                  ? _buildDesktopRow(context)
-                  : _buildMobileRow(context),
             ),
           ),
           if (!isWide && _mobileMenuOpen) _buildMobileMenu(context),

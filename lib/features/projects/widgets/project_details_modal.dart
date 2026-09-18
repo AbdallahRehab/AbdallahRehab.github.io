@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/glass_button.dart';
+import '../project_taxonomy.dart';
+import 'engineering_story_strip.dart';
 
 class ProjectDetailsModal extends StatelessWidget {
   final Map<String, dynamic> project;
@@ -14,6 +16,12 @@ class ProjectDetailsModal extends StatelessWidget {
     final textColor = AppTheme.textColor(context);
     final textSecondary = AppTheme.textColorSecondary(context);
     final links = project['links'] as Map<String, dynamic>? ?? {};
+    final platforms = (project['platforms'] as List<dynamic>? ?? [])
+        .cast<String>();
+    final scaleLabel = project['scaleLabel'] as String?;
+    final domain = project['domain'] as String?;
+    final storyStages = (project['storyStages'] as List<dynamic>?)
+        ?.cast<String>();
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -79,10 +87,37 @@ class ProjectDetailsModal extends StatelessWidget {
                     ),
                   ],
                 ),
+                const SizedBox(height: 20),
+
+                // Scale strip — domain, user scale, and platforms at a glance.
+                if (domain != null || scaleLabel != null || platforms.isNotEmpty)
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      if (domain != null) _Pill(text: domain, accent: accent),
+                      if (scaleLabel != null)
+                        _Pill(text: scaleLabel, accent: accent, filled: true),
+                      for (final platform in platforms)
+                        _Pill(
+                          text: platform == 'ios' ? 'iOS' : 'Android',
+                          accent: accent,
+                          icon: platform == 'ios'
+                              ? Icons.apple
+                              : Icons.android,
+                        ),
+                    ],
+                  ),
+
+                if (storyStages != null && storyStages.isNotEmpty) ...[
+                  const SizedBox(height: 24),
+                  EngineeringStoryStrip(stages: storyStages),
+                ],
+
                 const SizedBox(height: 28),
                 if ((project['context'] as String?)?.isNotEmpty ?? false)
                   _Block(
-                    label: 'Context',
+                    label: 'Overview',
                     body: project['context'],
                     textColor: textColor,
                     textSecondary: textSecondary,
@@ -147,7 +182,7 @@ class ProjectDetailsModal extends StatelessWidget {
                 if ((project['technologies'] as List<dynamic>?)?.isNotEmpty ??
                     false) ...[
                   Text(
-                    'TECHNOLOGIES',
+                    'ENGINEERING',
                     style: TextStyle(
                       color: textSecondary,
                       fontSize: 12,
@@ -155,36 +190,62 @@ class ProjectDetailsModal extends StatelessWidget {
                       letterSpacing: 1.2,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: (project['technologies'] as List<dynamic>)
-                        .map(
-                          (t) => Container(
+                  const SizedBox(height: 12),
+                  ...ProjectTaxonomy.groupTechnologies(
+                    (project['technologies'] as List<dynamic>)
+                        .cast<String>(),
+                  ).entries.map(
+                    (entry) => Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
+                              horizontal: 8,
+                              vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: AppTheme.borderColor(
-                                context,
-                              ).withValues(alpha: 0.4),
-                              borderRadius: BorderRadius.circular(8),
+                              color: accent.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
-                              t.toString(),
+                              entry.key,
                               style: TextStyle(
-                                color: textSecondary,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
+                                color: accent,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                           ),
-                        )
-                        .toList(),
+                          for (final tech in entry.value)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppTheme.borderColor(
+                                  context,
+                                ).withValues(alpha: 0.4),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                tech,
+                                style: TextStyle(
+                                  color: textSecondary,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 28),
+                  const SizedBox(height: 16),
                 ],
                 if (links['ios'] != null || links['android'] != null)
                   Wrap(
@@ -216,6 +277,49 @@ class ProjectDetailsModal extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _Pill extends StatelessWidget {
+  final String text;
+  final Color accent;
+  final bool filled;
+  final IconData? icon;
+
+  const _Pill({
+    required this.text,
+    required this.accent,
+    this.filled = false,
+    this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: filled ? accent.withValues(alpha: 0.14) : Colors.transparent,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: accent.withValues(alpha: 0.35)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null) ...[
+            Icon(icon, size: 14, color: accent),
+            const SizedBox(width: 6),
+          ],
+          Text(
+            text,
+            style: TextStyle(
+              color: accent,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
       ),
     );
   }

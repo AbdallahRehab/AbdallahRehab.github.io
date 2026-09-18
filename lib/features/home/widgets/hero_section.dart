@@ -3,20 +3,42 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/animated_metric.dart';
 import '../../../../core/widgets/glass_button.dart';
 import '../../../../core/widgets/social_icon.dart';
+import 'hero_orbit_background.dart';
 
-class HeroSection extends StatelessWidget {
+class HeroSection extends StatefulWidget {
   final VoidCallback? onContactPressed;
 
   const HeroSection({super.key, this.onContactPressed});
 
+  @override
+  State<HeroSection> createState() => _HeroSectionState();
+}
+
+class _HeroSectionState extends State<HeroSection> {
   static const _metrics = [
     _Metric('6+', 'Years Experience'),
-    _Metric('3M+', 'Users Served'),
+    _Metric('7M+', 'Combined Users'),
     _Metric('60%', 'Faster Load Times'),
-    _Metric('iOS · Android', 'Shipped Platforms'),
+    _Metric('90%', 'Test Coverage'),
   ];
+
+  // Shared cursor signal for the whole scene — the orbit ring/glow behind
+  // the copy and the avatar in front of it react to the same position at
+  // different strengths, so the hero reads as layered depth rather than
+  // one widget independently tilting.
+  Offset _scenePointer = Offset.zero;
+
+  void _updateScenePointer(PointerEvent event) {
+    final box = context.findRenderObject() as RenderBox?;
+    if (box == null) return;
+    final local = box.globalToLocal(event.position);
+    final dx = ((local.dx / box.size.width) * 2 - 1).clamp(-1.0, 1.0);
+    final dy = ((local.dy / box.size.height) * 2 - 1).clamp(-1.0, 1.0);
+    setState(() => _scenePointer = Offset(dx, dy));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +46,33 @@ class HeroSection extends StatelessWidget {
     final textColor = AppTheme.textColor(context);
     final textSecondary = AppTheme.textColorSecondary(context);
 
-    return Container(
+    return MouseRegion(
+      onHover: _updateScenePointer,
+      onExit: (_) => setState(() => _scenePointer = Offset.zero),
+      child: Container(
       constraints: const BoxConstraints(minHeight: 760),
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 96),
-      child: Center(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned.fill(child: HeroOrbitBackground(pointer: _scenePointer)),
+          Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 760),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Avatar — tilts toward the cursor, like a subtle 3D card.
-              const _TiltAvatar()
+              // Avatar — tilts toward the cursor, like a subtle 3D card,
+              // and drifts a couple of px with the wider scene as a
+              // foreground parallax layer.
+              _TiltAvatar(ambientParallax: _scenePointer)
                   .animate()
-                  .fadeIn(duration: 500.ms)
+                  .fadeIn(duration: 700.ms)
                   .scale(
-                    begin: const Offset(0.9, 0.9),
+                    begin: const Offset(0.55, 0.55),
                     end: const Offset(1, 1),
+                    duration: 900.ms,
+                    curve: Curves.easeOutBack,
                   ),
 
               const SizedBox(height: 28),
@@ -108,21 +141,34 @@ class HeroSection extends StatelessWidget {
 
               const SizedBox(height: 48),
 
-              // Metrics strip
+              // Metrics strip — each tile pops in individually with a
+              // slight bounce, staggered left to right.
               Wrap(
                 spacing: 36,
                 runSpacing: 20,
                 alignment: WrapAlignment.center,
-                children: _metrics
-                    .map(
-                      (m) => _MetricTile(
-                        metric: m,
-                        textColor: textColor,
-                        secondary: textSecondary,
-                      ),
-                    )
-                    .toList(),
-              ).animate().fadeIn(delay: 350.ms).slideY(begin: 0.2, end: 0),
+                children: [
+                  for (int i = 0; i < _metrics.length; i++)
+                    AnimatedMetric(
+                          value: _metrics[i].value,
+                          label: _metrics[i].label,
+                          valueColor: textColor,
+                          labelColor: textSecondary,
+                        )
+                        .animate()
+                        .fadeIn(
+                          delay: (350 + i * 90).ms,
+                          duration: 450.ms,
+                        )
+                        .scale(
+                          delay: (350 + i * 90).ms,
+                          duration: 450.ms,
+                          begin: const Offset(0.7, 0.7),
+                          end: const Offset(1, 1),
+                          curve: Curves.easeOutBack,
+                        ),
+                ],
+              ),
 
               const SizedBox(height: 48),
 
@@ -149,7 +195,7 @@ class HeroSection extends StatelessWidget {
                     text: 'Contact Me',
                     icon: Icons.mail_outline_rounded,
                     isPrimary: false,
-                    onPressed: () => onContactPressed?.call(),
+                    onPressed: () => widget.onContactPressed?.call(),
                   ),
                 ],
               ).animate().fadeIn(delay: 450.ms).slideY(begin: 0.2, end: 0),
@@ -189,6 +235,9 @@ class HeroSection extends StatelessWidget {
           ),
         ),
       ),
+        ],
+      ),
+      ),
     );
   }
 }
@@ -199,59 +248,15 @@ class _Metric {
   const _Metric(this.value, this.label);
 }
 
-/// Animates a leading integer (e.g. "60" in "60%") counting up from zero,
-/// then settles on the metric's full label including its suffix. Metrics
-/// with no leading digit (e.g. "iOS · Android") just fade in as static text.
-class _MetricTile extends StatelessWidget {
-  static final _leadingNumber = RegExp(r'^(\d+)(.*)$');
-
-  final _Metric metric;
-  final Color textColor;
-  final Color secondary;
-
-  const _MetricTile({
-    required this.metric,
-    required this.textColor,
-    required this.secondary,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final match = _leadingNumber.firstMatch(metric.value);
-    final valueStyle = TextStyle(
-      color: textColor,
-      fontSize: 22,
-      fontWeight: FontWeight.bold,
-    );
-
-    return Column(
-      children: [
-        if (match != null)
-          TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0, end: double.parse(match.group(1)!)),
-            duration: const Duration(milliseconds: 1400),
-            curve: Curves.easeOutCubic,
-            builder: (context, value, child) =>
-                Text('${value.toInt()}${match.group(2)}', style: valueStyle),
-          )
-        else
-          Text(metric.value, style: valueStyle),
-        const SizedBox(height: 4),
-        Text(
-          metric.label,
-          style: TextStyle(color: secondary, fontSize: 12),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
-}
-
 /// A small pointer-tracking 3D tilt on the avatar — desktop mice/trackpads
 /// get a responsive parallax; touch devices simply see the resting pose,
-/// since there's no hover signal to tilt from.
+/// since there's no hover signal to tilt from. [ambientParallax] additionally
+/// drifts the whole avatar a few px with the cursor even when it isn't the
+/// thing being hovered — the "foreground" layer of the hero's parallax.
 class _TiltAvatar extends StatefulWidget {
-  const _TiltAvatar();
+  final Offset ambientParallax;
+
+  const _TiltAvatar({this.ambientParallax = Offset.zero});
 
   @override
   State<_TiltAvatar> createState() => _TiltAvatarState();
@@ -274,7 +279,17 @@ class _TiltAvatarState extends State<_TiltAvatar> {
   Widget build(BuildContext context) {
     final accent = AppTheme.primaryColor(context);
 
-    return MouseRegion(
+    return TweenAnimationBuilder<Offset>(
+      tween: Tween(begin: Offset.zero, end: widget.ambientParallax),
+      duration: const Duration(milliseconds: 220),
+      curve: Curves.easeOut,
+      builder: (context, ambient, child) {
+        return Transform.translate(
+          offset: Offset(ambient.dx * 14, ambient.dy * 14),
+          child: child,
+        );
+      },
+      child: MouseRegion(
       onEnter: (_) => setState(() => _hovering = true),
       onHover: _updateTilt,
       onExit: (_) => setState(() {
@@ -335,6 +350,7 @@ class _TiltAvatarState extends State<_TiltAvatar> {
             ),
           ),
         ),
+      ),
       ),
     );
   }

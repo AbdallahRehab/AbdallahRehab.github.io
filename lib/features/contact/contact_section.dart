@@ -88,12 +88,22 @@ class _ContactSectionState extends State<ContactSection> {
           child: Column(
             children: [
               Text(
-                'Contact Me',
+                'Have a mobile product\nthat needs to scale?',
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
                   color: AppTheme.textColor(context),
                   fontWeight: FontWeight.bold,
+                  height: 1.2,
                 ),
               ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+
+              const SizedBox(height: 16),
+
+              Text(
+                'Let\'s build something reliable, fast, and production-ready.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: AppTheme.textColorSecondary(context)),
+              ).animate().fadeIn(delay: 80.ms),
 
               const SizedBox(height: 40),
 

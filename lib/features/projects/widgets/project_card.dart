@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../project_taxonomy.dart';
 
 class ProjectCard extends StatefulWidget {
   final Map<String, dynamic> project;
@@ -69,17 +70,46 @@ class _ProjectCardState extends State<ProjectCard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: accent.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Icon(
-                            Icons.apps_rounded,
-                            color: accent,
-                            size: 22,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: accent.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Icon(
+                                ProjectTaxonomy.iconFor(name),
+                                color: accent,
+                                size: 22,
+                              ),
+                            ),
+                            if ((widget.project['scaleLabel'] as String?)
+                                    ?.isNotEmpty ??
+                                false)
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 5,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.chipBackground(context),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color: AppTheme.chipBorder(context),
+                                  ),
+                                ),
+                                child: Text(
+                                  widget.project['scaleLabel'],
+                                  style: TextStyle(
+                                    color: accent,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                         const SizedBox(height: 16),
                         Text(
