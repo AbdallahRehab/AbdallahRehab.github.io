@@ -46,3 +46,6 @@ app.*.map.json
 
 .vscode/
 .kilo/
+
+# FVM Version Cache
+.fvm/
