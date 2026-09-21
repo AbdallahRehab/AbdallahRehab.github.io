@@ -94,6 +94,7 @@ class _HomePageState extends State<HomePage> {
   int _activeSection = 0;
   bool _showScrollToTop = false;
   bool _isNavCompact = false;
+  bool _isHeroOrbitActive = true;
 
   @override
   void initState() {
@@ -118,6 +119,18 @@ class _HomePageState extends State<HomePage> {
 
     // Track active section
     _updateActiveSection();
+
+    // Pause the hero orbit's continuous drift ticker once the hero has
+    // scrolled out of the viewport — it's a purely decorative background,
+    // no reason to keep animating every frame once nobody can see it.
+    final heroBox = _homeKey.currentContext?.findRenderObject() as RenderBox?;
+    if (heroBox != null) {
+      final heroBottom = heroBox.localToGlobal(Offset.zero).dy + heroBox.size.height;
+      final heroActive = heroBottom > 0;
+      if (heroActive != _isHeroOrbitActive) {
+        setState(() => _isHeroOrbitActive = heroActive);
+      }
+    }
   }
 
   void _updateActiveSection() {
@@ -207,6 +220,7 @@ class _HomePageState extends State<HomePage> {
                       HeroSection(
                         key: _homeKey,
                         onContactPressed: _scrollToContact,
+                        isOrbitActive: _isHeroOrbitActive,
                       ),
                       const ImpactSection(),
                       AboutSection(key: _aboutKey),

@@ -24,7 +24,17 @@ import '../../../core/theme/app_theme.dart';
 class HeroOrbitBackground extends StatefulWidget {
   final Offset pointer;
 
-  const HeroOrbitBackground({super.key, this.pointer = Offset.zero});
+  /// Whether the hero is still on (or near) screen. The parent scroll view
+  /// sets this to false once the hero scrolls out of the viewport, so the
+  /// 50-second drift ticker stops running — and the CPU/GPU cost with it —
+  /// for a background motif nobody can see anymore.
+  final bool isActive;
+
+  const HeroOrbitBackground({
+    super.key,
+    this.pointer = Offset.zero,
+    this.isActive = true,
+  });
 
   @override
   State<HeroOrbitBackground> createState() => _HeroOrbitBackgroundState();
@@ -68,13 +78,26 @@ class _HeroOrbitBackgroundState extends State<HeroOrbitBackground>
     if (!_started || reduceMotion != _reduceMotion) {
       _started = true;
       _reduceMotion = reduceMotion;
-      if (_reduceMotion) {
-        _driftController.stop();
-        _entranceController.value = 1;
-      } else {
-        _driftController.repeat();
+      _syncDrift();
+      if (!_reduceMotion && widget.isActive) {
         _entranceController.forward();
+      } else {
+        _entranceController.value = 1;
       }
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant HeroOrbitBackground oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.isActive != widget.isActive) _syncDrift();
+  }
+
+  void _syncDrift() {
+    if (_reduceMotion || !widget.isActive) {
+      _driftController.stop();
+    } else if (!_driftController.isAnimating) {
+      _driftController.repeat();
     }
   }
 

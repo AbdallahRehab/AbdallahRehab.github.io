@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/motion.dart';
 
 /// A standalone section for AI-assisted engineering — framed as an
 /// accelerator layered on top of engineering judgment, not a replacement
@@ -63,7 +64,10 @@ class AiAssistedSection extends StatelessWidget {
                     letterSpacing: 1.2,
                   ),
                 ),
-              ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn().slideY(begin: 0.2, end: 0),
+              ),
 
               const SizedBox(height: 24),
 
@@ -74,7 +78,10 @@ class AiAssistedSection extends StatelessWidget {
                   color: textColor,
                   fontWeight: FontWeight.bold,
                 ),
-              ).animate().fadeIn(delay: 100.ms).slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 100.ms).slideY(begin: 0.2, end: 0),
+              ),
 
               const SizedBox(height: 16),
 
@@ -88,7 +95,10 @@ class AiAssistedSection extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(color: textSecondary, height: 1.6),
                 ),
-              ).animate().fadeIn(delay: 150.ms).slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 150.ms).slideY(begin: 0.2, end: 0),
+              ),
 
               const SizedBox(height: 48),
 
@@ -109,10 +119,15 @@ class AiAssistedSection extends StatelessWidget {
                       for (int i = 0; i < _capabilities.length; i++)
                         SizedBox(
                           width: itemWidth,
-                          child: _CapabilityCard(capability: _capabilities[i])
-                              .animate()
-                              .fadeIn(delay: (250 + i * 80).ms)
-                              .slideY(begin: 0.12, end: 0),
+                          child: _CapabilityCard(
+                            capability: _capabilities[i],
+                          ).animatedUnlessReduced(
+                            context,
+                            (w) => w
+                                .animate()
+                                .fadeIn(delay: (250 + i * 80).ms)
+                                .slideY(begin: 0.12, end: 0),
+                          ),
                         ),
                     ],
                   );

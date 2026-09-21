@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 
 class SocialIcon extends StatefulWidget {
-  final IconData icon;
+  final FaIconData icon;
   final String url;
   final String label;
 
@@ -57,7 +57,9 @@ class _SocialIconState extends State<SocialIcon> {
                 hoverColor: accent.withValues(alpha: 0.12),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 160),
-                  padding: const EdgeInsets.all(12),
+                  // 14px padding + 18px icon = 46px diameter, clearing the
+                  // 44x44 WCAG 2.5.5 touch-target minimum with margin.
+                  padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(

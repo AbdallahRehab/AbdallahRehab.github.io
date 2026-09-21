@@ -77,6 +77,16 @@ class AppTheme {
     return primaryColor(context).withValues(alpha: 0.1);
   }
 
+  /// A foreground color guaranteed to clear WCAG contrast against a solid
+  /// [primaryColor] fill (e.g. the scroll-to-top FAB). Dark mode's neon
+  /// cyan is too light for a white icon/text (~1.4:1); light mode's deep
+  /// teal already clears white comfortably (~5:1).
+  static Color onPrimaryColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? spaceBlack
+        : Colors.white;
+  }
+
   static Color chipBorder(BuildContext context) {
     return primaryColor(context).withValues(alpha: 0.35);
   }

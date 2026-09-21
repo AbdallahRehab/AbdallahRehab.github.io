@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/glass_button.dart';
+import '../../../../core/widgets/motion.dart';
 
 class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
@@ -87,15 +88,21 @@ class _ContactSectionState extends State<ContactSection> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: [
-              Text(
-                'Have a mobile product\nthat needs to scale?',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  color: AppTheme.textColor(context),
-                  fontWeight: FontWeight.bold,
-                  height: 1.2,
+              Semantics(
+                header: true,
+                child: Text(
+                  'Have a mobile product\nthat needs to scale?',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                    color: AppTheme.textColor(context),
+                    fontWeight: FontWeight.bold,
+                    height: 1.2,
+                  ),
                 ),
-              ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn().slideY(begin: 0.2, end: 0),
+              ),
 
               const SizedBox(height: 16),
 
@@ -103,7 +110,10 @@ class _ContactSectionState extends State<ContactSection> {
                 'Let\'s build something reliable, fast, and production-ready.',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: AppTheme.textColorSecondary(context)),
-              ).animate().fadeIn(delay: 80.ms),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 80.ms),
+              ),
 
               const SizedBox(height: 40),
 
@@ -162,7 +172,10 @@ class _ContactSectionState extends State<ContactSection> {
                     ],
                   ),
                 ),
-              ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 200.ms).slideY(begin: 0.2, end: 0),
+              ),
             ],
           ),
         ),

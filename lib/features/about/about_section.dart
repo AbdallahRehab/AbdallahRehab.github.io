@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/motion.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
@@ -49,13 +50,19 @@ class AboutSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'About',
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  color: textColor,
-                  fontWeight: FontWeight.bold,
+              Semantics(
+                header: true,
+                child: Text(
+                  'About',
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                    color: textColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn().slideY(begin: 0.2, end: 0),
+              ),
 
               const SizedBox(height: 24),
 
@@ -76,7 +83,10 @@ class AboutSection extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-              ).animate().fadeIn(delay: 150.ms).slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 150.ms).slideY(begin: 0.2, end: 0),
+              ),
 
               const SizedBox(height: 48),
 
@@ -97,10 +107,15 @@ class AboutSection extends StatelessWidget {
                       for (int i = 0; i < _pillars.length; i++)
                         SizedBox(
                           width: itemWidth,
-                          child: _PillarCard(pillar: _pillars[i])
-                              .animate()
-                              .fadeIn(delay: (250 + i * 100).ms)
-                              .slideY(begin: 0.15, end: 0),
+                          child: _PillarCard(
+                            pillar: _pillars[i],
+                          ).animatedUnlessReduced(
+                            context,
+                            (w) => w
+                                .animate()
+                                .fadeIn(delay: (250 + i * 100).ms)
+                                .slideY(begin: 0.15, end: 0),
+                          ),
                         ),
                     ],
                   );

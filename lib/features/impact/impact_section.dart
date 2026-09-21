@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/animated_metric.dart';
+import '../../core/widgets/motion.dart';
 
 /// A single interactive "engineering impact" dashboard: the headline numbers
 /// up top, then a small system diagram connecting one shared mobile
@@ -59,20 +60,29 @@ class ImpactSection extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 1100),
           child: Column(
             children: [
-              Text(
-                'Engineering Impact',
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  color: textColor,
-                  fontWeight: FontWeight.bold,
+              Semantics(
+                header: true,
+                child: Text(
+                  'Engineering Impact',
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                    color: textColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn().slideY(begin: 0.2, end: 0),
+              ),
 
               const SizedBox(height: 12),
 
               Text(
                 'The same engineering practice, applied across products used by millions.',
                 style: TextStyle(color: textSecondary),
-              ).animate().fadeIn(delay: 100.ms),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 100.ms),
+              ),
 
               const SizedBox(height: 48),
 
@@ -93,7 +103,10 @@ class ImpactSection extends StatelessWidget {
                       ),
                     )
                     .toList(),
-              ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.15, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 200.ms).slideY(begin: 0.15, end: 0),
+              ),
 
               const SizedBox(height: 64),
 
@@ -115,10 +128,15 @@ class ImpactSection extends StatelessWidget {
                       for (int i = 0; i < _products.length; i++)
                         SizedBox(
                           width: itemWidth,
-                          child: _ProductNodeCard(product: _products[i])
-                              .animate()
-                              .fadeIn(delay: (300 + i * 100).ms)
-                              .slideY(begin: 0.15, end: 0),
+                          child: _ProductNodeCard(
+                            product: _products[i],
+                          ).animatedUnlessReduced(
+                            context,
+                            (w) => w
+                                .animate()
+                                .fadeIn(delay: (300 + i * 100).ms)
+                                .slideY(begin: 0.15, end: 0),
+                          ),
                         ),
                     ],
                   );

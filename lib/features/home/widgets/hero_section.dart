@@ -5,13 +5,22 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/animated_metric.dart';
 import '../../../../core/widgets/glass_button.dart';
+import '../../../../core/widgets/motion.dart';
 import '../../../../core/widgets/social_icon.dart';
 import 'hero_orbit_background.dart';
 
 class HeroSection extends StatefulWidget {
   final VoidCallback? onContactPressed;
 
-  const HeroSection({super.key, this.onContactPressed});
+  /// Whether the hero is still on (or near) screen — forwarded to
+  /// [HeroOrbitBackground] so its drift ticker pauses once scrolled away.
+  final bool isOrbitActive;
+
+  const HeroSection({
+    super.key,
+    this.onContactPressed,
+    this.isOrbitActive = true,
+  });
 
   @override
   State<HeroSection> createState() => _HeroSectionState();
@@ -55,7 +64,12 @@ class _HeroSectionState extends State<HeroSection> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Positioned.fill(child: HeroOrbitBackground(pointer: _scenePointer)),
+          Positioned.fill(
+            child: HeroOrbitBackground(
+              pointer: _scenePointer,
+              isActive: widget.isOrbitActive,
+            ),
+          ),
           Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 760),
@@ -65,15 +79,20 @@ class _HeroSectionState extends State<HeroSection> {
               // Avatar — tilts toward the cursor, like a subtle 3D card,
               // and drifts a couple of px with the wider scene as a
               // foreground parallax layer.
-              _TiltAvatar(ambientParallax: _scenePointer)
-                  .animate()
-                  .fadeIn(duration: 700.ms)
-                  .scale(
-                    begin: const Offset(0.55, 0.55),
-                    end: const Offset(1, 1),
-                    duration: 900.ms,
-                    curve: Curves.easeOutBack,
-                  ),
+              _TiltAvatar(
+                ambientParallax: _scenePointer,
+              ).animatedUnlessReduced(
+                context,
+                (w) => w
+                    .animate()
+                    .fadeIn(duration: 700.ms)
+                    .scale(
+                      begin: const Offset(0.55, 0.55),
+                      end: const Offset(1, 1),
+                      duration: 900.ms,
+                      curve: Curves.easeOutBack,
+                    ),
+              ),
 
               const SizedBox(height: 28),
 
@@ -97,7 +116,10 @@ class _HeroSectionState extends State<HeroSection> {
                     letterSpacing: 1.4,
                   ),
                 ),
-              ).animate().fadeIn(delay: 100.ms).slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 100.ms).slideY(begin: 0.2, end: 0),
+              ),
 
               const SizedBox(height: 20),
 
@@ -110,7 +132,10 @@ class _HeroSectionState extends State<HeroSection> {
                   color: textColor,
                 ),
                 textAlign: TextAlign.center,
-              ).animate().fadeIn(delay: 150.ms).slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 150.ms).slideY(begin: 0.2, end: 0),
+              ),
 
               const SizedBox(height: 12),
 
@@ -123,7 +148,10 @@ class _HeroSectionState extends State<HeroSection> {
                   letterSpacing: 0.5,
                 ),
                 textAlign: TextAlign.center,
-              ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 200.ms).slideY(begin: 0.2, end: 0),
+              ),
 
               const SizedBox(height: 20),
 
@@ -137,7 +165,10 @@ class _HeroSectionState extends State<HeroSection> {
                   height: 1.6,
                 ),
                 textAlign: TextAlign.center,
-              ).animate().fadeIn(delay: 250.ms).slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 250.ms).slideY(begin: 0.2, end: 0),
+              ),
 
               const SizedBox(height: 48),
 
@@ -150,23 +181,23 @@ class _HeroSectionState extends State<HeroSection> {
                 children: [
                   for (int i = 0; i < _metrics.length; i++)
                     AnimatedMetric(
-                          value: _metrics[i].value,
-                          label: _metrics[i].label,
-                          valueColor: textColor,
-                          labelColor: textSecondary,
-                        )
-                        .animate()
-                        .fadeIn(
-                          delay: (350 + i * 90).ms,
-                          duration: 450.ms,
-                        )
-                        .scale(
-                          delay: (350 + i * 90).ms,
-                          duration: 450.ms,
-                          begin: const Offset(0.7, 0.7),
-                          end: const Offset(1, 1),
-                          curve: Curves.easeOutBack,
-                        ),
+                      value: _metrics[i].value,
+                      label: _metrics[i].label,
+                      valueColor: textColor,
+                      labelColor: textSecondary,
+                    ).animatedUnlessReduced(
+                      context,
+                      (w) => w
+                          .animate()
+                          .fadeIn(delay: (350 + i * 90).ms, duration: 450.ms)
+                          .scale(
+                            delay: (350 + i * 90).ms,
+                            duration: 450.ms,
+                            begin: const Offset(0.7, 0.7),
+                            end: const Offset(1, 1),
+                            curve: Curves.easeOutBack,
+                          ),
+                    ),
                 ],
               ),
 
@@ -198,7 +229,10 @@ class _HeroSectionState extends State<HeroSection> {
                     onPressed: () => widget.onContactPressed?.call(),
                   ),
                 ],
-              ).animate().fadeIn(delay: 450.ms).slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 450.ms).slideY(begin: 0.2, end: 0),
+              ),
 
               const SizedBox(height: 48),
 
@@ -230,7 +264,10 @@ class _HeroSectionState extends State<HeroSection> {
                     label: 'WhatsApp',
                   ),
                 ],
-              ).animate().fadeIn(delay: 550.ms).slideY(begin: 0.2, end: 0),
+              ).animatedUnlessReduced(
+                context,
+                (w) => w.animate().fadeIn(delay: 550.ms).slideY(begin: 0.2, end: 0),
+              ),
             ],
           ),
         ),

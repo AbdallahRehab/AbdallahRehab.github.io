@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../core/theme/app_theme.dart';
+import '../../core/widgets/motion.dart';
 import 'widgets/project_card.dart';
 import 'widgets/project_details_modal.dart';
 
@@ -37,20 +38,29 @@ class _ProjectsSectionState extends State<ProjectsSection> {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 80),
       child: Column(
         children: [
-          Text(
-            'Projects',
-            style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              color: AppTheme.textColor(context),
-              fontWeight: FontWeight.bold,
+          Semantics(
+            header: true,
+            child: Text(
+              'Projects',
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                color: AppTheme.textColor(context),
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+          ).animatedUnlessReduced(
+            context,
+            (w) => w.animate().fadeIn().slideY(begin: 0.2, end: 0),
+          ),
 
           const SizedBox(height: 12),
 
           Text(
             'Real products, real constraints — tap a card for the full case study.',
             style: TextStyle(color: AppTheme.textColorSecondary(context)),
-          ).animate().fadeIn(delay: 100.ms),
+          ).animatedUnlessReduced(
+            context,
+            (w) => w.animate().fadeIn(delay: 100.ms),
+          ),
 
           const SizedBox(height: 60),
 

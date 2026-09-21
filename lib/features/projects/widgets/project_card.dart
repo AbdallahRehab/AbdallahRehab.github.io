@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/motion.dart';
 import '../project_taxonomy.dart';
 
 class ProjectCard extends StatefulWidget {
@@ -196,9 +197,12 @@ class _ProjectCardState extends State<ProjectCard> {
               ),
             ),
           ),
-        )
-        .animate()
-        .fadeIn(delay: widget.animationDelay, duration: 300.ms)
-        .slideY(delay: widget.animationDelay, begin: 0.08, end: 0);
+        ).animatedUnlessReduced(
+          context,
+          (w) => w
+              .animate()
+              .fadeIn(delay: widget.animationDelay, duration: 300.ms)
+              .slideY(delay: widget.animationDelay, begin: 0.08, end: 0),
+        );
   }
 }

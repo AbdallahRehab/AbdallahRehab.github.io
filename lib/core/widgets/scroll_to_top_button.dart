@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
+import 'motion.dart';
 
 class ScrollToTopButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -22,14 +23,20 @@ class ScrollToTopButton extends StatelessWidget {
                   onPressed: onPressed,
                   backgroundColor: AppTheme.primaryColor(context),
                   tooltip: 'Scroll to top',
-                  child: const Icon(
+                  child: Icon(
                     Icons.arrow_upward_rounded,
-                    color: Colors.white,
+                    color: AppTheme.onPrimaryColor(context),
                   ),
+                ).animatedUnlessReduced(
+                  context,
+                  (w) => w
+                      .animate()
+                      .fadeIn(duration: 300.ms)
+                      .scale(
+                        begin: const Offset(0.8, 0.8),
+                        end: const Offset(1, 1),
+                      ),
                 )
-                .animate()
-                .fadeIn(duration: 300.ms)
-                .scale(begin: const Offset(0.8, 0.8), end: const Offset(1, 1))
           : const SizedBox.shrink(),
     );
   }

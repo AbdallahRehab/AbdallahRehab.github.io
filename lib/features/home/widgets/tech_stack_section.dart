@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/motion.dart';
 
 class TechStackSection extends StatelessWidget {
   const TechStackSection({super.key});
@@ -90,13 +91,19 @@ class TechStackSection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 80),
       child: Column(
         children: [
-          Text(
-            'Skills',
-            style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              color: AppTheme.textColor(context),
-              fontWeight: FontWeight.bold,
+          Semantics(
+            header: true,
+            child: Text(
+              'Skills',
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                color: AppTheme.textColor(context),
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ).animate().fadeIn().slideY(begin: 0.2, end: 0),
+          ).animatedUnlessReduced(
+            context,
+            (w) => w.animate().fadeIn().slideY(begin: 0.2, end: 0),
+          ),
           const SizedBox(height: 60),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 1100),
@@ -117,10 +124,15 @@ class TechStackSection extends StatelessWidget {
                     for (int i = 0; i < _categories.length; i++)
                       SizedBox(
                         width: itemWidth,
-                        child: _CategoryCard(category: _categories[i])
-                            .animate()
-                            .fadeIn(delay: (100 + i * 60).ms)
-                            .slideY(begin: 0.12, end: 0),
+                        child: _CategoryCard(
+                          category: _categories[i],
+                        ).animatedUnlessReduced(
+                          context,
+                          (w) => w
+                              .animate()
+                              .fadeIn(delay: (100 + i * 60).ms)
+                              .slideY(begin: 0.12, end: 0),
+                        ),
                       ),
                   ],
                 );
