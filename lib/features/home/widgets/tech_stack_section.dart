@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/motion.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/motion.dart';
+import '../../../core/widgets/pressable.dart';
+import '../../../core/widgets/section.dart';
 
 class TechStackSection extends StatelessWidget {
   const TechStackSection({super.key});
@@ -87,56 +89,27 @@ class TechStackSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 80),
+    return Section(
+      constrain: false,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Semantics(
-            header: true,
-            child: Text(
-              'Skills',
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                color: AppTheme.textColor(context),
-                fontWeight: FontWeight.bold,
-              ),
+          const PageColumn(
+            child: SectionHeader(
+              title: 'The toolbox',
+              lead:
+                  'What I reach for across mobile, architecture, delivery and '
+                  'security.',
             ),
-          ).animatedUnlessReduced(
-            context,
-            (w) => w.animate().fadeIn().slideY(begin: 0.2, end: 0),
           ),
-          const SizedBox(height: 60),
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1100),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final columns = constraints.maxWidth > 900
-                    ? 3
-                    : constraints.maxWidth > 560
-                    ? 2
-                    : 1;
-                final itemWidth =
-                    (constraints.maxWidth - (columns - 1) * 20) / columns;
-
-                return Wrap(
-                  spacing: 20,
-                  runSpacing: 20,
-                  children: [
-                    for (int i = 0; i < _categories.length; i++)
-                      SizedBox(
-                        width: itemWidth,
-                        child: _CategoryCard(
-                          category: _categories[i],
-                        ).animatedUnlessReduced(
-                          context,
-                          (w) => w
-                              .animate()
-                              .fadeIn(delay: (100 + i * 60).ms)
-                              .slideY(begin: 0.12, end: 0),
-                        ),
-                      ),
-                  ],
-                );
-              },
+          const Reveal(child: _Marquee()),
+          SizedBox(height: AppType.fluid(context, 40, 72)),
+          PageColumn(
+            child: ResponsiveGrid(
+              gap: AppType.fluid(context, 24, 48),
+              runGap: 0,
+              columnsFor: (w) => w > 860 ? 2 : 1,
+              children: [for (final c in _categories) _SkillRow(category: c)],
             ),
           ),
         ],
@@ -157,99 +130,217 @@ class _SkillCategory {
   });
 }
 
-class _CategoryCard extends StatefulWidget {
+class _SkillRow extends StatelessWidget {
   final _SkillCategory category;
 
-  const _CategoryCard({required this.category});
-
-  @override
-  State<_CategoryCard> createState() => _CategoryCardState();
-}
-
-class _CategoryCardState extends State<_CategoryCard> {
-  bool _hovered = false;
+  const _SkillRow({required this.category});
 
   @override
   Widget build(BuildContext context) {
-    final accent = AppTheme.primaryColor(context);
-    final category = widget.category;
-
-    return MouseRegion(
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOut,
-        transform: Matrix4.identity()
-          ..translateByDouble(0.0, _hovered ? -4.0 : 0.0, 0.0, 1.0),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: AppTheme.cardColor(context),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: _hovered
-                ? accent.withValues(alpha: 0.5)
-                : AppTheme.borderColor(context),
+    final p = context.palette;
+    return Reveal(
+      child: HoverRegion(
+        builder: (context, hovered) => AnimatedContainer(
+          duration: Space.slow,
+          curve: Space.expo,
+          padding: const EdgeInsets.symmetric(vertical: 24),
+          decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: p.line)),
           ),
-          boxShadow: _hovered
-              ? [
-                  BoxShadow(
-                    color: accent.withValues(alpha: 0.15),
-                    blurRadius: 20,
-                    spreadRadius: 1,
-                  ),
-                ]
-              : const [],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(category.icon, color: accent, size: 20),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    category.title,
-                    style: TextStyle(
-                      color: AppTheme.textColor(context),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 2),
+                    Text(
+                      category.title,
+                      style: AppType.ui(context, size: 16).copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: hovered ? p.accentInk : p.ink,
+                      ),
                     ),
+                    const SizedBox(height: 6),
+                    Text(
+                      category.skills.join('  ·  '),
+                      style: AppType.body(context, size: 14.5),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Full-bleed band of core technologies drifting left on a loop, edges
+/// faded out, paused on hover. Static and centred under reduced motion.
+class _Marquee extends StatefulWidget {
+  const _Marquee();
+
+  static final _items = <(IconData?, String)>[
+    (FontAwesomeIcons.flutter.data, 'Flutter'),
+    (null, 'Dart'),
+    (FontAwesomeIcons.android.data, 'Android'),
+    (FontAwesomeIcons.apple.data, 'iOS'),
+    (null, 'Kotlin'),
+    (FontAwesomeIcons.swift.data, 'Swift'),
+    (null, 'Firebase'),
+    (null, 'Riverpod'),
+    (null, 'Bloc'),
+    (null, 'GraphQL'),
+    (FontAwesomeIcons.github.data, 'GitHub Actions'),
+    (null, 'Codemagic'),
+    (null, 'Sentry'),
+    (FontAwesomeIcons.stripe.data, 'Stripe'),
+  ];
+
+  @override
+  State<_Marquee> createState() => _MarqueeState();
+}
+
+class _MarqueeState extends State<_Marquee>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 48),
+  );
+  final _measureKey = GlobalKey();
+  double _runWidth = 0;
+  bool _reduce = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _reduce = MediaQuery.of(context).disableAnimations;
+    if (_reduce) {
+      _c.stop();
+    } else if (!_c.isAnimating) {
+      _c.repeat();
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) => _measure());
+  }
+
+  void _measure() {
+    final box = _measureKey.currentContext?.findRenderObject() as RenderBox?;
+    if (box != null && box.hasSize && box.size.width != _runWidth) {
+      setState(() => _runWidth = box.size.width);
+    }
+  }
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  Widget _run(BuildContext context, {Key? key}) {
+    final p = context.palette;
+    final style = AppType.h3(context, size: AppType.fluid(context, 18, 22));
+    return Row(
+      key: key,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (final (icon, label) in _Marquee._items)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 22),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(width: 30),
+                if (icon != null) ...[
+                  Icon(icon, size: 22, color: p.ink.withValues(alpha: 0.85)),
+                  const SizedBox(width: 12),
+                ],
+                Text(label, style: style),
+                const SizedBox(width: 30),
+                Container(
+                  width: 5,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: p.signal,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 14),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: category.skills
-                  .map(
-                    (s) => Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 6,
+          ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.palette;
+    final band = BoxDecoration(
+      border: Border.symmetric(horizontal: BorderSide(color: p.line)),
+    );
+
+    if (_reduce) {
+      return Container(
+        decoration: band,
+        child: PageColumn(
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            children: [_run(context)],
+          ),
+        ),
+      );
+    }
+
+    return Semantics(
+      label:
+          'Core technologies: ${_Marquee._items.map((e) => e.$2).join(', ')}',
+      excludeSemantics: true,
+      child: MouseRegion(
+        onEnter: (_) => _c.stop(),
+        onExit: (_) => _c.repeat(),
+        child: Container(
+          decoration: band,
+          child: ShaderMask(
+            shaderCallback: (rect) => const LinearGradient(
+              colors: [
+                Color(0x00000000),
+                Color(0xFF000000),
+                Color(0xFF000000),
+                Color(0x00000000),
+              ],
+              stops: [0, 0.08, 0.92, 1],
+            ).createShader(rect),
+            blendMode: BlendMode.dstIn,
+            child: SizedBox(
+              height: 74,
+              child: ClipRect(
+                child: AnimatedBuilder(
+                  animation: _c,
+                  builder: (context, child) => Stack(
+                    clipBehavior: Clip.hardEdge,
+                    children: [
+                      Positioned(
+                        left: -_runWidth * _c.value,
+                        top: 0,
+                        bottom: 0,
+                        child: child!,
                       ),
-                      decoration: BoxDecoration(
-                        color: AppTheme.borderColor(
-                          context,
-                        ).withValues(alpha: 0.4),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        s,
-                        style: TextStyle(
-                          color: AppTheme.textColorSecondary(context),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _run(context, key: _measureKey),
+                      _run(context),
+                      _run(context),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );

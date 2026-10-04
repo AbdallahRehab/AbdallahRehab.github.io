@@ -11,7 +11,6 @@ import 'features/about/timeline_section.dart';
 import 'features/contact/contact_section.dart';
 import 'features/home/widgets/ai_assisted_section.dart';
 import 'features/home/widgets/hero_section.dart';
-import 'features/home/widgets/starfield_background.dart';
 import 'features/home/widgets/tech_stack_section.dart';
 import 'features/impact/impact_section.dart';
 import 'features/projects/projects_section.dart';
@@ -62,6 +61,9 @@ class _PortfolioAppState extends State<PortfolioApp> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: _themeMode,
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        scrollbars: false,
+      ),
       builder: (context, child) => ResponsiveLayout(child: child!),
       home: HomePage(onThemeToggle: _toggleTheme, themeMode: _themeMode),
     );
@@ -84,17 +86,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
-  final GlobalKey _homeKey = GlobalKey();
-  final GlobalKey _aboutKey = GlobalKey();
-  final GlobalKey _experienceKey = GlobalKey();
-  final GlobalKey _skillsKey = GlobalKey();
-  final GlobalKey _projectsKey = GlobalKey();
-  final GlobalKey _contactKey = GlobalKey();
+
+  /// Section anchors in page order: hero, about, scale, experience, work,
+  /// skills, contact. Indexes match [PortfolioAppBar.navItems].
+  final List<GlobalKey> _keys = List.generate(7, (_) => GlobalKey());
 
   int _activeSection = 0;
   bool _showScrollToTop = false;
   bool _isNavCompact = false;
-  bool _isHeroOrbitActive = true;
 
   @override
   void initState() {
@@ -103,92 +102,51 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onScroll() {
-    // Show/hide scroll to top button
-    if (_scrollController.offset > 200 && !_showScrollToTop) {
-      setState(() => _showScrollToTop = true);
-    } else if (_scrollController.offset <= 200 && _showScrollToTop) {
-      setState(() => _showScrollToTop = false);
+    final offset = _scrollController.offset;
+    // Shown once past the hero, hidden again at the footer, which has its
+    // own back-to-top control.
+    final showTop =
+        offset > 600 && _scrollController.position.extentAfter > 240;
+    final compact = offset > 24;
+    if (showTop != _showScrollToTop || compact != _isNavCompact) {
+      setState(() {
+        _showScrollToTop = showTop;
+        _isNavCompact = compact;
+      });
     }
-
-    // Compact the navbar once the user has scrolled past the hero.
-    if (_scrollController.offset > 24 && !_isNavCompact) {
-      setState(() => _isNavCompact = true);
-    } else if (_scrollController.offset <= 24 && _isNavCompact) {
-      setState(() => _isNavCompact = false);
-    }
-
-    // Track active section
     _updateActiveSection();
-
-    // Pause the hero orbit's continuous drift ticker once the hero has
-    // scrolled out of the viewport — it's a purely decorative background,
-    // no reason to keep animating every frame once nobody can see it.
-    final heroBox = _homeKey.currentContext?.findRenderObject() as RenderBox?;
-    if (heroBox != null) {
-      final heroBottom = heroBox.localToGlobal(Offset.zero).dy + heroBox.size.height;
-      final heroActive = heroBottom > 0;
-      if (heroActive != _isHeroOrbitActive) {
-        setState(() => _isHeroOrbitActive = heroActive);
-      }
-    }
   }
 
   void _updateActiveSection() {
-    final keys = [
-      _homeKey,
-      _aboutKey,
-      _experienceKey,
-      _skillsKey,
-      _projectsKey,
-      _contactKey,
-    ];
-
-    for (int i = 0; i < keys.length; i++) {
-      final context = keys[i].currentContext;
-      if (context != null) {
-        final box = context.findRenderObject() as RenderBox?;
-        if (box != null) {
-          final position = box.localToGlobal(Offset.zero);
-          if (position.dy <= 100 && position.dy >= -box.size.height + 100) {
-            if (_activeSection != i) {
-              setState(() => _activeSection = i);
-            }
-            break;
-          }
-        }
-      }
+    // The last section whose top has passed a line a third of the way down
+    // the viewport is the one being read.
+    final line = MediaQuery.sizeOf(context).height / 3;
+    var active = 0;
+    for (var i = 0; i < _keys.length; i++) {
+      final box = _keys[i].currentContext?.findRenderObject() as RenderBox?;
+      if (box == null || !box.attached) continue;
+      if (box.localToGlobal(Offset.zero).dy <= line) active = i;
     }
+    if (_scrollController.position.extentAfter < 40) active = _keys.length - 1;
+    if (active != _activeSection) setState(() => _activeSection = active);
   }
 
   void _scrollToSection(int index) {
-    final keys = [
-      _homeKey,
-      _aboutKey,
-      _experienceKey,
-      _skillsKey,
-      _projectsKey,
-      _contactKey,
-    ];
-
-    if (index < keys.length) {
-      Scrollable.ensureVisible(
-        keys[index].currentContext!,
-        duration: const Duration(milliseconds: 800),
-        curve: Curves.easeInOut,
-      );
-    }
+    final target = _keys[index].currentContext;
+    if (target == null) return;
+    Scrollable.ensureVisible(
+      target,
+      duration: const Duration(milliseconds: 900),
+      curve: Space.expo,
+    );
   }
 
   void _scrollToTop() {
     _scrollController.animateTo(
       0,
-      duration: const Duration(milliseconds: 800),
-      curve: Curves.easeInOut,
+      duration: const Duration(milliseconds: 900),
+      curve: Space.expo,
     );
-  }
-
-  void _scrollToContact() {
-    _scrollToSection(5); // Contact is the last nav index
   }
 
   @override
@@ -202,7 +160,6 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Stack(
         children: [
-          const StarfieldBackground(),
           Column(
             children: [
               PortfolioAppBar(
@@ -213,37 +170,45 @@ class _HomePageState extends State<HomePage> {
                 isScrolled: _isNavCompact,
               ),
               Expanded(
-                child: SingleChildScrollView(
+                child: Scrollbar(
                   controller: _scrollController,
-                  child: Column(
-                    children: [
-                      HeroSection(
-                        key: _homeKey,
-                        onContactPressed: _scrollToContact,
-                        isOrbitActive: _isHeroOrbitActive,
-                      ),
-                      const ImpactSection(),
-                      AboutSection(key: _aboutKey),
-                      TimelineSection(key: _experienceKey),
-                      const AiAssistedSection(),
-                      TechStackSection(key: _skillsKey),
-                      ProjectsSection(key: _projectsKey),
-                      ContactSection(key: _contactKey),
-                      const Footer(),
-                    ],
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        HeroSection(
+                          key: _keys[0],
+                          onViewWork: () => _scrollToSection(4),
+                          onContact: () =>
+                              _scrollToSection(PortfolioAppBar.contactIndex),
+                        ),
+                        AboutSection(key: _keys[1]),
+                        ImpactSection(key: _keys[2]),
+                        TimelineSection(key: _keys[3]),
+                        ProjectsSection(key: _keys[4]),
+                        TechStackSection(key: _keys[5]),
+                        const AiAssistedSection(),
+                        ContactSection(key: _keys[6]),
+                        Footer(onBackToTop: _scrollToTop),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-          Positioned(
-            right: 24,
-            bottom: 24,
-            child: ScrollToTopButton(
-              onPressed: _scrollToTop,
-              isVisible: _showScrollToTop,
+          // Desktop only: on phones the disc would sit over body copy, and
+          // the monogram and footer already return to the top.
+          if (MediaQuery.sizeOf(context).width > 700)
+            Positioned(
+              right: 24,
+              bottom: 24,
+              child: ScrollToTopButton(
+                onPressed: _scrollToTop,
+                isVisible: _showScrollToTop,
+              ),
             ),
-          ),
         ],
       ),
     );

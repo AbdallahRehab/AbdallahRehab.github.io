@@ -1,208 +1,151 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/motion.dart';
-import '../project_taxonomy.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ProjectCard extends StatefulWidget {
+import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/buttons.dart';
+import '../../../core/widgets/motion.dart';
+import '../../../core/widgets/pressable.dart';
+import '../../../core/widgets/section.dart';
+
+/// One case study in the work grid: domain, name at display size with its
+/// user scale, the context, its headline outcome and stack, and an arrow
+/// that turns to point ahead on hover.
+class ProjectCard extends StatelessWidget {
   final Map<String, dynamic> project;
   final VoidCallback onTap;
-  final Duration animationDelay;
+  final int index;
 
   const ProjectCard({
     super.key,
     required this.project,
     required this.onTap,
-    this.animationDelay = Duration.zero,
+    this.index = 0,
   });
 
   @override
-  State<ProjectCard> createState() => _ProjectCardState();
-}
-
-class _ProjectCardState extends State<ProjectCard> {
-  bool _isHovered = false;
-
-  @override
   Widget build(BuildContext context) {
-    final accent = AppTheme.primaryColor(context);
-    final textColor = AppTheme.textColor(context);
-    final textSecondary = AppTheme.textColorSecondary(context);
-    final name = widget.project['name'] ?? 'Project';
+    final p = context.palette;
+    final name = project['name'] as String? ?? 'Project';
+    final domain = project['domain'] as String?;
+    final scale = project['scaleLabel'] as String?;
+    final platforms = (project['platforms'] as List<dynamic>? ?? [])
+        .cast<String>();
+    final impact = (project['impact'] as List<dynamic>? ?? []).cast<String>();
+    final tech = (project['technologies'] as List<dynamic>? ?? [])
+        .cast<String>();
 
-    return MouseRegion(
-          onEnter: (_) => setState(() => _isHovered = true),
-          onExit: (_) => setState(() => _isHovered = false),
-          child: Semantics(
-            button: true,
-            label: 'Open case study: $name',
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: widget.onTap,
-                borderRadius: BorderRadius.circular(20),
-                focusColor: accent.withValues(alpha: 0.1),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeOut,
-                  transform: Matrix4.identity()
-                    ..translateByDouble(0.0, _isHovered ? -4.0 : 0.0, 0.0, 1.0),
-                  decoration: BoxDecoration(
-                    color: AppTheme.cardColor(context),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: _isHovered
-                          ? accent.withValues(alpha: 0.5)
-                          : AppTheme.borderColor(context),
-                      width: 1.5,
-                    ),
-                    boxShadow: _isHovered
-                        ? [
-                            BoxShadow(
-                              color: accent.withValues(alpha: 0.15),
-                              blurRadius: 20,
-                              spreadRadius: 2,
-                            ),
-                          ]
-                        : [],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
+    return Reveal(
+      delay: Duration(milliseconds: 70 * (index % 2)),
+      child: Pressable(
+        onTap: onTap,
+        focusRadius: Space.radius,
+        semanticLabel: 'Open case study: $name',
+        builder: (context, active) => AnimatedContainer(
+          duration: Space.slow,
+          curve: Space.easeOut,
+          padding: EdgeInsets.all(AppType.fluid(context, 20, 32)),
+          decoration: BoxDecoration(
+            color: active ? p.surfaceHover : p.surface,
+            borderRadius: BorderRadius.circular(Space.radius),
+            border: Border.all(color: active ? p.line : p.lineFaint),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: accent.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Icon(
-                                ProjectTaxonomy.iconFor(name),
-                                color: accent,
-                                size: 22,
-                              ),
-                            ),
-                            if ((widget.project['scaleLabel'] as String?)
-                                    ?.isNotEmpty ??
-                                false)
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 5,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppTheme.chipBackground(context),
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color: AppTheme.chipBorder(context),
-                                  ),
-                                ),
-                                child: Text(
-                                  widget.project['scaleLabel'],
-                                  style: TextStyle(
-                                    color: accent,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
                         Text(
                           name,
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(
-                                color: textColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          widget.project['tagline'] ?? '',
-                          style: TextStyle(
-                            color: accent,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.4,
+                          style: AppType.h3(
+                            context,
+                            size: AppType.fluid(context, 30, 40),
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 6),
                         Text(
-                          widget.project['context'] ?? '',
-                          style: TextStyle(color: textSecondary, height: 1.5),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 16),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children:
-                              (widget.project['technologies']
-                                          as List<dynamic>? ??
-                                      [])
-                                  .take(3)
-                                  .map(
-                                    (tag) => Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 4,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.chipBackground(context),
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(
-                                          color: AppTheme.chipBorder(context),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        tag.toString(),
-                                        style: TextStyle(
-                                          color: accent,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          children: [
-                            Text(
-                              'View case study',
-                              style: TextStyle(
-                                color: accent,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            const SizedBox(width: 4),
-                            Icon(
-                              Icons.arrow_forward_rounded,
-                              color: accent,
-                              size: 14,
-                            ),
-                          ],
+                          [?domain, ?scale].join('  ·  '),
+                          style: AppType.caption(
+                            context,
+                          ).copyWith(fontSize: 14),
                         ),
                       ],
                     ),
                   ),
-                ),
+                  for (final platform in platforms) ...[
+                    const SizedBox(width: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Icon(
+                        platform == 'ios'
+                            ? FontAwesomeIcons.apple.data
+                            : FontAwesomeIcons.android.data,
+                        size: 15,
+                        color: p.inkFaint,
+                        semanticLabel: platform == 'ios' ? 'iOS' : 'Android',
+                      ),
+                    ),
+                  ],
+                ],
               ),
-            ),
+              const SizedBox(height: 14),
+              Text(
+                project['context'] as String? ?? '',
+                style: AppType.body(context, size: 15.5),
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const Spacer(),
+              if (impact.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Container(
+                        width: 7,
+                        height: 7,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: p.signal,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        impact.first,
+                        style: AppType.ui(context, size: 15),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+              const SizedBox(height: 18),
+              TagList(tech.take(4).toList()),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Text(
+                    'Read case study',
+                    style: AppType.ui(
+                      context,
+                      size: 14,
+                    ).copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(width: 12),
+                  ArrowCircle(size: 32, active: active),
+                ],
+              ),
+            ],
           ),
-        ).animatedUnlessReduced(
-          context,
-          (w) => w
-              .animate()
-              .fadeIn(delay: widget.animationDelay, duration: 300.ms)
-              .slideY(delay: widget.animationDelay, begin: 0.08, end: 0),
-        );
+        ),
+      ),
+    );
   }
 }

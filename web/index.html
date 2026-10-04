@@ -58,6 +58,30 @@
 
     <title>Abdallah Ali Rehab | Senior Mobile Engineer, Flutter</title>
     <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#0E110C" />
+    <style>
+      html, body { margin: 0; background: #0E110C; }
+      #boot {
+        position: fixed; inset: 0; display: grid; place-items: center;
+        background: #0E110C; transition: opacity .5s cubic-bezier(.16,1,.3,1);
+      }
+      #boot span {
+        display: grid; place-items: center; width: 56px; height: 56px;
+        border: 1px solid #2C3326; border-radius: 50%;
+        font: 500 20px/1 system-ui, sans-serif; color: #EEF0E4; letter-spacing: -.02em;
+        position: relative;
+      }
+      #boot span::after {
+        content: ""; position: absolute; inset: -1px; border-radius: 50%;
+        border: 1px solid transparent; border-top-color: #C5F04A;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      @media (prefers-reduced-motion: reduce) { #boot span::after { animation: none; } }
+      @media (prefers-color-scheme: light) {
+        html, body, #boot { background: #0E110C; }
+      }
+    </style>
 
     <script type="application/ld+json">
       {
@@ -86,6 +110,15 @@
     </script>
   </head>
   <body>
+    <div id="boot" aria-hidden="true"><span>AR</span></div>
+    <script>
+      window.addEventListener("flutter-first-frame", function () {
+        var b = document.getElementById("boot");
+        if (!b) return;
+        b.style.opacity = "0";
+        setTimeout(function () { b.remove(); }, 600);
+      });
+    </script>
     <script src="flutter_bootstrap.js" async></script>
   </body>
 </html>

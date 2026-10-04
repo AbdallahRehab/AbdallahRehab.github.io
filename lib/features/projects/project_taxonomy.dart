@@ -18,7 +18,9 @@ class ProjectTaxonomy {
 
   /// Groups a project's technology tags under engineering category labels.
   /// Anything that doesn't match a known keyword falls under "Core Stack".
-  static Map<String, List<String>> groupTechnologies(List<String> technologies) {
+  static Map<String, List<String>> groupTechnologies(
+    List<String> technologies,
+  ) {
     final grouped = <String, List<String>>{};
     for (final tech in technologies) {
       final lower = tech.toLowerCase();

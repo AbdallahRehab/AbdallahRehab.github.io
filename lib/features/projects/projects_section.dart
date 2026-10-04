@@ -1,10 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
-import '../../core/theme/app_theme.dart';
-import '../../core/widgets/motion.dart';
+import '../../core/widgets/section.dart';
 import 'widgets/project_card.dart';
 import 'widgets/project_details_modal.dart';
 
@@ -16,7 +15,7 @@ class ProjectsSection extends StatefulWidget {
 }
 
 class _ProjectsSectionState extends State<ProjectsSection> {
-  List<dynamic> _projects = [];
+  List<Map<String, dynamic>> _projects = const [];
 
   @override
   void initState() {
@@ -25,80 +24,44 @@ class _ProjectsSectionState extends State<ProjectsSection> {
   }
 
   Future<void> _loadProjects() async {
-    final String response = await rootBundle.loadString('assets/config.json');
-    final data = json.decode(response);
+    final data = json.decode(await rootBundle.loadString('assets/config.json'));
+    if (!mounted) return;
     setState(() {
-      _projects = data['projects'];
+      _projects = (data['projects'] as List<dynamic>)
+          .cast<Map<String, dynamic>>();
     });
+  }
+
+  void _open(Map<String, dynamic> project) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.6),
+      builder: (_) => ProjectDetailsModal(project: project),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 80),
+    return Section(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Semantics(
-            header: true,
-            child: Text(
-              'Projects',
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                color: AppTheme.textColor(context),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ).animatedUnlessReduced(
-            context,
-            (w) => w.animate().fadeIn().slideY(begin: 0.2, end: 0),
+          const SectionHeader(
+            title: 'Selected work',
+            lead:
+                'Real products, real constraints — open any one for the full '
+                'case study.',
           ),
-
-          const SizedBox(height: 12),
-
-          Text(
-            'Real products, real constraints — tap a card for the full case study.',
-            style: TextStyle(color: AppTheme.textColorSecondary(context)),
-          ).animatedUnlessReduced(
-            context,
-            (w) => w.animate().fadeIn(delay: 100.ms),
-          ),
-
-          const SizedBox(height: 60),
-
-          LayoutBuilder(
-            builder: (context, constraints) {
-              // Cards size to their own content (natural height) rather than
-              // a fixed aspect ratio, so a project with more impact/tech
-              // chips never overflows a hard-coded card height.
-              final columns = constraints.maxWidth > 1100
-                  ? 3
-                  : constraints.maxWidth > 700
-                  ? 2
-                  : 1;
-              final itemWidth =
-                  (constraints.maxWidth - (columns - 1) * 24) / columns;
-
-              return Wrap(
-                spacing: 24,
-                runSpacing: 24,
-                children: [
-                  for (int i = 0; i < _projects.length; i++)
-                    SizedBox(
-                      width: itemWidth,
-                      child: ProjectCard(
-                        project: _projects[i],
-                        animationDelay: Duration(milliseconds: i * 80),
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) =>
-                                ProjectDetailsModal(project: _projects[i]),
-                          );
-                        },
-                      ),
-                    ),
-                ],
-              );
-            },
+          ResponsiveGrid(
+            columnsFor: (w) => w > 760 ? 2 : 1,
+            children: [
+              for (var i = 0; i < _projects.length; i++)
+                ProjectCard(
+                  project: _projects[i],
+                  index: i,
+                  onTap: () => _open(_projects[i]),
+                ),
+            ],
           ),
         ],
       ),

@@ -1,166 +1,642 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-21T20:42:44Z",
+  "generatedAt": "2026-10-04T00:00:00Z",
   "title": "Design System: Abdallah Ali Rehab Portfolio",
   "extensions": {
     "colorMeta": {
-      "signal-cyan": {
+      "moss-night-ground": {
+        "role": "neutral",
+        "displayName": "Olive-Black Ground",
+        "canonical": "#0E110C",
+        "tonalRamp": [
+          "#1E2419",
+          "#36422E",
+          "#546648",
+          "#718A61",
+          "#90A681",
+          "#B0C0A5",
+          "#D0D9C9",
+          "#EFF2ED"
+        ]
+      },
+      "moss-night-recessed": {
+        "role": "neutral",
+        "displayName": "Recessed Black",
+        "canonical": "#090B07",
+        "tonalRamp": [
+          "#1F2518",
+          "#38452C",
+          "#576A43",
+          "#758F5B",
+          "#94AC7C",
+          "#B2C3A2",
+          "#D1DBC7",
+          "#F0F3EC"
+        ]
+      },
+      "moss-night-surface": {
+        "role": "neutral",
+        "displayName": "Panel Olive",
+        "canonical": "#141811",
+        "tonalRamp": [
+          "#1E2419",
+          "#37422F",
+          "#556648",
+          "#728961",
+          "#91A682",
+          "#B1C0A5",
+          "#D0D9C9",
+          "#EFF2ED"
+        ]
+      },
+      "moss-night-surface-hover": {
+        "role": "neutral",
+        "displayName": "Panel Olive Lifted",
+        "canonical": "#191E15",
+        "tonalRamp": [
+          "#1E2419",
+          "#37422E",
+          "#556647",
+          "#738A61",
+          "#92A781",
+          "#B1C0A5",
+          "#D0D9C9",
+          "#EFF2ED"
+        ]
+      },
+      "moss-night-line": {
+        "role": "neutral",
+        "displayName": "Moss Line",
+        "canonical": "#2C3326",
+        "tonalRamp": [
+          "#1E231A",
+          "#374030",
+          "#56634A",
+          "#748664",
+          "#93A484",
+          "#B2BEA7",
+          "#D1D8CA",
+          "#F0F2ED"
+        ]
+      },
+      "moss-night-line-faint": {
+        "role": "neutral",
+        "displayName": "Faint Moss Line",
+        "canonical": "#1B2017",
+        "tonalRamp": [
+          "#1E241A",
+          "#37412F",
+          "#556549",
+          "#738862",
+          "#92A582",
+          "#B1BFA6",
+          "#D0D9CA",
+          "#EFF2ED"
+        ]
+      },
+      "bone-ink": {
+        "role": "neutral",
+        "displayName": "Bone Ink",
+        "canonical": "#EEF0E4",
+        "tonalRamp": [
+          "#242716",
+          "#434828",
+          "#676F3E",
+          "#8C9754",
+          "#A8B275",
+          "#C1C89D",
+          "#DADEC4",
+          "#F3F4EB"
+        ]
+      },
+      "lichen-muted": {
+        "role": "neutral",
+        "displayName": "Lichen Muted",
+        "canonical": "#A9AF9C",
+        "tonalRamp": [
+          "#20221B",
+          "#3A3E32",
+          "#5A604D",
+          "#7A8269",
+          "#989F89",
+          "#B5BBAA",
+          "#D3D6CC",
+          "#F0F1EE"
+        ]
+      },
+      "lichen-faint": {
+        "role": "neutral",
+        "displayName": "Lichen Faint",
+        "canonical": "#858C78",
+        "tonalRamp": [
+          "#1F211C",
+          "#393D34",
+          "#595E50",
+          "#787F6C",
+          "#969C8B",
+          "#B4B9AC",
+          "#D2D5CD",
+          "#F0F1EE"
+        ]
+      },
+      "phosphor-lime": {
         "role": "primary",
-        "displayName": "Signal Cyan",
-        "canonical": "#00F0FF",
-        "tonalRamp": ["#00484C", "#00828A", "#00BBC7", "#00F0FF", "#3DF4FF", "#7AF7FF", "#B8FBFF", "#E5FEFF"]
+        "displayName": "Phosphor Lime",
+        "canonical": "#C5F04A",
+        "tonalRamp": [
+          "#2B3905",
+          "#4F6809",
+          "#7AA00D",
+          "#A5D912",
+          "#C0EF39",
+          "#D2F372",
+          "#E4F8AA",
+          "#F6FDE3"
+        ],
+        "themeRole": "accent fill in both themes; also accentInk and signal in Moss Night"
       },
-      "alert-pink": {
-        "role": "secondary",
-        "displayName": "Alert Pink",
-        "canonical": "#FF007F",
-        "tonalRamp": ["#4C0026", "#8A0045", "#C70063", "#FF007F", "#FF3D9E", "#FF7ABC", "#FFB8DB", "#FFE5F2"]
+      "on-lime-ink": {
+        "role": "neutral",
+        "displayName": "On-Lime Ink",
+        "canonical": "#0E110C",
+        "tonalRamp": [
+          "#1E2419",
+          "#36422E",
+          "#546648",
+          "#718A61",
+          "#90A681",
+          "#B0C0A5",
+          "#D0D9C9",
+          "#EFF2ED"
+        ]
       },
-      "deep-teal": {
+      "bone-day-ground": {
+        "role": "neutral",
+        "displayName": "Bone Ground",
+        "canonical": "#F3F2EA",
+        "tonalRamp": [
+          "#272516",
+          "#474429",
+          "#6E693F",
+          "#958E55",
+          "#B1AB77",
+          "#C7C39E",
+          "#DEDBC5",
+          "#F4F3EC"
+        ]
+      },
+      "bone-day-recessed": {
+        "role": "neutral",
+        "displayName": "Bone Recessed",
+        "canonical": "#E9E8DD",
+        "tonalRamp": [
+          "#252418",
+          "#44422C",
+          "#696644",
+          "#8E8A5C",
+          "#ABA77D",
+          "#C3C0A2",
+          "#DBD9C7",
+          "#F3F2EC"
+        ]
+      },
+      "bone-day-surface": {
+        "role": "neutral",
+        "displayName": "Bone Panel",
+        "canonical": "#FBFBF6",
+        "tonalRamp": [
+          "#2A2A13",
+          "#4E4E23",
+          "#787835",
+          "#A2A248",
+          "#BDBD6B",
+          "#D0D095",
+          "#E3E3BF",
+          "#F6F6EA"
+        ]
+      },
+      "bone-day-surface-hover": {
+        "role": "neutral",
+        "displayName": "White Panel",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "#1F1F1F",
+          "#383838",
+          "#575757",
+          "#757575",
+          "#949494",
+          "#B2B2B2",
+          "#D1D1D1",
+          "#F0F0F0"
+        ]
+      },
+      "bone-day-line": {
+        "role": "neutral",
+        "displayName": "Bone Line",
+        "canonical": "#CFCFC0",
+        "tonalRamp": [
+          "#23231A",
+          "#404031",
+          "#62624B",
+          "#858565",
+          "#A2A285",
+          "#BDBDA8",
+          "#D7D7CB",
+          "#F2F2EE"
+        ]
+      },
+      "bone-day-line-faint": {
+        "role": "neutral",
+        "displayName": "Faint Bone Line",
+        "canonical": "#E2E1D5",
+        "tonalRamp": [
+          "#242319",
+          "#42412E",
+          "#676447",
+          "#8B8760",
+          "#A8A480",
+          "#C1BEA4",
+          "#DAD8C9",
+          "#F3F2ED"
+        ]
+      },
+      "olive-ink": {
+        "role": "neutral",
+        "displayName": "Olive Ink",
+        "canonical": "#151912",
+        "tonalRamp": [
+          "#1E241A",
+          "#37412F",
+          "#556549",
+          "#738862",
+          "#91A582",
+          "#B1BFA6",
+          "#D0D9CA",
+          "#EFF2ED"
+        ]
+      },
+      "olive-muted": {
+        "role": "neutral",
+        "displayName": "Olive Muted",
+        "canonical": "#4E5343",
+        "tonalRamp": [
+          "#20221B",
+          "#3A3E32",
+          "#5A604D",
+          "#7A8269",
+          "#989F88",
+          "#B6BBAA",
+          "#D3D6CC",
+          "#F0F1EE"
+        ]
+      },
+      "olive-faint": {
+        "role": "neutral",
+        "displayName": "Olive Faint",
+        "canonical": "#6B6F5E",
+        "tonalRamp": [
+          "#20211C",
+          "#3B3D33",
+          "#5B5E50",
+          "#7A7F6C",
+          "#999D8B",
+          "#B6B9AC",
+          "#D3D5CD",
+          "#F0F1EE"
+        ]
+      },
+      "deep-moss": {
         "role": "primary",
-        "displayName": "Deep Teal",
-        "canonical": "#007A87",
-        "tonalRamp": ["#00454C", "#007C8A", "#00B4C7", "#00E6FF", "#3DECFF", "#7AF2FF", "#B8F8FF", "#E5FDFF"]
+        "displayName": "Deep Moss",
+        "canonical": "#4D6B00",
+        "tonalRamp": [
+          "#2C3D00",
+          "#517000",
+          "#7DAD00",
+          "#A9EB00",
+          "#C3FF29",
+          "#D4FF66",
+          "#E5FFA3",
+          "#F6FFE0"
+        ],
+        "themeRole": "accentInk (Bone Day); lime fills this role in Moss Night"
       },
-      "berry-rose": {
-        "role": "secondary",
-        "displayName": "Berry Rose",
-        "canonical": "#D81B60",
-        "tonalRamp": ["#44081E", "#7A0F36", "#B1164F", "#E31C65", "#E9538A", "#F089AF", "#F7C0D4", "#FCE8F0"]
-      },
-      "space-black": { "role": "neutral", "displayName": "Space Black", "canonical": "#0B0B15" },
-      "deep-space": { "role": "neutral", "displayName": "Deep Space", "canonical": "#1A1A2E" },
-      "starlight": { "role": "neutral", "displayName": "Starlight", "canonical": "#EAEAEA" },
-      "mist": { "role": "neutral", "displayName": "Mist", "canonical": "#FAFAFA" },
-      "paper": { "role": "neutral", "displayName": "Paper", "canonical": "#FFFFFF" },
-      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#1A1A2E" },
-      "ink-muted": { "role": "neutral", "displayName": "Ink Muted", "canonical": "#5A5A6E" },
-      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "#E0E0E0" }
+      "signal-moss": {
+        "role": "primary",
+        "displayName": "Signal Moss",
+        "canonical": "#6E9410",
+        "tonalRamp": [
+          "#293706",
+          "#4B650B",
+          "#749C11",
+          "#9DD417",
+          "#B8EA3E",
+          "#CDF075",
+          "#E1F6AC",
+          "#F5FCE3"
+        ],
+        "themeRole": "signal (Bone Day); lime fills this role in Moss Night"
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Hero name only — the single largest element on the page." },
-      "headline": { "displayName": "Headline", "purpose": "Every section title (About, Experience, Skills, Projects, Contact, modal title)." },
-      "title": { "displayName": "Title", "purpose": "Card titles and sub-block headings (project card names, hero role line)." },
-      "body": { "displayName": "Body", "purpose": "Paragraph copy — positioning statement, narrative, case-study descriptions." },
-      "label": { "displayName": "Label", "purpose": "Eyebrow badges, nav links, chip/tag text, metric captions — often uppercase, wide letter-spacing." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero name only, once per page, revealed line by line."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles, max 820px wide, at most one accent phrase."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Role names, pillar titles, project names (30-40px on project cards)."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "Chart headline figures and bar values, always beside what they quantify."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "One paragraph under a headline, max 560px."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose in inkMuted."
+      },
+      "ui": {
+        "displayName": "UI",
+        "purpose": "Buttons, nav links, emphasized one-liners."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Form field labels and the case-study dialog's uppercase row labels. Never above a heading."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Dates, domain/scale lines, axis ticks, ledger lines."
+      }
     },
-    "shadows": [
-      { "name": "card-hover-glow", "value": "0 0 20px rgba(0, 240, 255, 0.15)", "purpose": "Standard card/pillar hover treatment, paired with a 4px upward lift." },
-      { "name": "button-primary-hover-glow", "value": "0 0 24px rgba(0, 240, 255, 0.35)", "purpose": "Primary button hover glow." },
-      { "name": "button-secondary-hover-glow", "value": "0 0 24px rgba(234, 234, 234, 0.15)", "purpose": "Secondary/ghost button hover glow." },
-      { "name": "modal-glow", "value": "0 0 40px rgba(0, 240, 255, 0.1)", "purpose": "Project case-study dialog ambient halo, present on open (not hover-gated)." },
-      { "name": "app-bar-scroll-shadow", "value": "0 2px 10px rgba(0, 0, 0, 0.3)", "purpose": "Appears only once the app bar compacts on scroll, paired with a real backdrop blur." }
+    "themes": {
+      "moss-night": {
+        "ground": "moss-night-ground",
+        "recessed": "moss-night-recessed",
+        "surface": "moss-night-surface",
+        "surfaceHover": "moss-night-surface-hover",
+        "line": "moss-night-line",
+        "lineFaint": "moss-night-line-faint",
+        "ink": "bone-ink",
+        "inkMuted": "lichen-muted",
+        "inkFaint": "lichen-faint",
+        "accent": "phosphor-lime",
+        "accentInk": "phosphor-lime",
+        "signal": "phosphor-lime",
+        "onAccent": "on-lime-ink",
+        "inverse": "bone-ink",
+        "onInverse": "moss-night-ground",
+        "onInverseMuted": "olive-muted"
+      },
+      "bone-day": {
+        "ground": "bone-day-ground",
+        "recessed": "bone-day-recessed",
+        "surface": "bone-day-surface",
+        "surfaceHover": "bone-day-surface-hover",
+        "line": "bone-day-line",
+        "lineFaint": "bone-day-line-faint",
+        "ink": "olive-ink",
+        "inkMuted": "olive-muted",
+        "inkFaint": "olive-faint",
+        "accent": "phosphor-lime",
+        "accentInk": "deep-moss",
+        "signal": "signal-moss",
+        "onAccent": "on-lime-ink",
+        "inverse": "moss-night-ground",
+        "onInverse": "bone-ink",
+        "onInverseMuted": "lichen-muted"
+      }
+    },
+    "shadows": [],
+    "gradients": [
+      {
+        "name": "portrait-scrim",
+        "value": "linear-gradient(to top, rgba(14,17,12,0.85) 0%, rgba(14,17,12,0) 45%)",
+        "purpose": "Bottom scrim on the hero portrait so the caption reads."
+      },
+      {
+        "name": "marquee-edge-fade",
+        "value": "mask: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%)",
+        "purpose": "Alpha edge-fade on the toolbox marquee band."
+      },
+      {
+        "name": "portrait-grade",
+        "value": "multiply #CDD3BC",
+        "purpose": "Moss multiply grade that pulls the white studio backdrop into the palette."
+      }
     ],
+    "focus": {
+      "value": "1.5px solid accentInk, drawn outside the element (stroke offset 3px), radius follows the element",
+      "purpose": "Single focus ring for every interactive element."
+    },
     "motion": [
-      { "name": "ease-standard", "value": "cubic-bezier(0.0, 0.0, 0.2, 1)", "purpose": "Default 180-250ms ease-out for hover/press state transitions across buttons, cards, nav links." },
-      { "name": "duration-fast", "value": "160ms", "purpose": "Social icon hover scale/glow." },
-      { "name": "duration-standard", "value": "180-200ms", "purpose": "Buttons, cards, nav link hover transitions." },
-      { "name": "duration-app-bar", "value": "250ms", "purpose": "App bar compact/expand transition on scroll." },
-      { "name": "duration-metric-count", "value": "1400ms", "purpose": "Hero/impact metric count-up animation (skipped entirely when reduced motion is enabled)." }
+      {
+        "name": "ease-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Sweeps, reveals, underline growth, arrow turn, chart growth."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.2, 0.7, 0.2, 1)",
+        "purpose": "Small state changes (nav border, icon-button ring, card fill)."
+      },
+      {
+        "name": "duration-fast",
+        "value": "250ms",
+        "purpose": "State changes."
+      },
+      {
+        "name": "duration-slow",
+        "value": "550ms",
+        "purpose": "Button sweeps, link underlines, arrow rotation, card hover."
+      },
+      {
+        "name": "duration-reveal",
+        "value": "900ms",
+        "purpose": "Scroll-triggered fade-up (24px) once in view; siblings staggered 70-100ms."
+      },
+      {
+        "name": "hero-line-mask",
+        "value": "each name line slides up from behind its own clip, staggered ~60ms starts",
+        "purpose": "Hero entrance only."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "final state immediately",
+        "purpose": "Reveals, chart growth, hero masks, live-dot pulse and marquee all resolve static when disableAnimations / prefers-reduced-motion is set."
+      }
     ],
     "breakpoints": [
-      { "name": "mobile", "value": "0-450px" },
-      { "name": "tablet", "value": "451-800px" },
-      { "name": "desktop", "value": "801-1920px" },
-      { "name": "4k", "value": "1921px+" }
+      {
+        "name": "nav-menu",
+        "value": "860px"
+      },
+      {
+        "name": "two-column",
+        "value": "900px"
+      },
+      {
+        "name": "dialog-label-column",
+        "value": "560px"
+      },
+      {
+        "name": "fluid-min",
+        "value": "390px"
+      },
+      {
+        "name": "fluid-max",
+        "value": "1440px"
+      }
     ]
   },
   "components": [
     {
-      "name": "Primary Button",
+      "name": "Accent Pill Button",
       "kind": "button",
-      "refersTo": "button-primary",
-      "description": "Full-pill accent CTA — used for Download CV, Send Message, and other primary actions.",
-      "html": "<button class=\"ds-btn-primary\"><span class=\"ds-btn-icon\" aria-hidden=\"true\"></span>Download CV</button>",
-      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 240, 255, 0.1); color: #00F0FF; border: 1.5px solid rgba(0, 240, 255, 0.5); border-radius: 30px; padding: 16px 32px; font-family: Outfit, sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.5px; cursor: pointer; transition: transform 0.18s ease-out, border-color 0.18s ease-out, box-shadow 0.18s ease-out; } .ds-btn-primary:hover, .ds-btn-primary:focus-visible { transform: scale(1.04); border-color: rgba(0, 240, 255, 0.9); box-shadow: 0 0 24px rgba(0, 240, 255, 0.35); outline: none; }"
+      "refersTo": "button-accent",
+      "description": "Primary action: lime fill, dark ink; ink sweeps in from the left on hover/focus.",
+      "html": "<button class=\"ds-pill ds-pill-accent\"><span>Download CV</span></button>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500&family=Hanken+Grotesk:wght@400;500;600&display=swap'); .ds-pill{position:relative;overflow:hidden;font:500 15px/1.2 'Hanken Grotesk',sans-serif;padding:13px 22px;border-radius:999px;cursor:pointer;background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;background-size:0% 100%;background-position:right center;transition:background-size .55s cubic-bezier(.16,1,.3,1),color .55s cubic-bezier(.16,1,.3,1);} .ds-pill:hover,.ds-pill:focus-visible{background-size:100% 100%;background-position:left center;} .ds-pill:focus-visible{outline:1.5px solid #C5F04A;outline-offset:3px;} .ds-pill-accent{background-color:#C5F04A;color:#0E110C;border:1px solid #C5F04A;background-image:linear-gradient(#EEF0E4,#EEF0E4);} .ds-pill-accent:hover,.ds-pill-accent:focus-visible{color:#0E110C;}"
     },
     {
-      "name": "Secondary Button",
+      "name": "Outline Pill Button",
       "kind": "button",
-      "refersTo": "button-secondary",
-      "description": "Same shape/padding as Primary but in the neutral text color — lower visual weight (e.g. LinkedIn/GitHub links in the hero).",
-      "html": "<button class=\"ds-btn-secondary\">View GitHub</button>",
-      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: rgba(234, 234, 234, 0.05); color: #EAEAEA; border: 1.5px solid rgba(234, 234, 234, 0.2); border-radius: 30px; padding: 16px 32px; font-family: Outfit, sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.5px; cursor: pointer; transition: transform 0.18s ease-out, border-color 0.18s ease-out, box-shadow 0.18s ease-out; } .ds-btn-secondary:hover, .ds-btn-secondary:focus-visible { transform: scale(1.04); border-color: rgba(234, 234, 234, 0.35); box-shadow: 0 0 24px rgba(234, 234, 234, 0.15); outline: none; }"
+      "refersTo": "button-outline",
+      "description": "Secondary action: ink outline on the ground; ink sweeps in, label turns ground.",
+      "html": "<button class=\"ds-pill2\">View work</button>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500&family=Hanken+Grotesk:wght@400;500;600&display=swap'); .ds-pill2{font:500 15px/1.2 'Hanken Grotesk',sans-serif;padding:13px 22px;border-radius:999px;cursor:pointer;color:#EEF0E4;border:1px solid #EEF0E4;background:#0E110C linear-gradient(#EEF0E4,#EEF0E4) no-repeat right center/0% 100%;transition:background-size .55s cubic-bezier(.16,1,.3,1),color .55s cubic-bezier(.16,1,.3,1);} .ds-pill2:hover,.ds-pill2:focus-visible{background-size:100% 100%;background-position:left center;color:#0E110C;} .ds-pill2:focus-visible{outline:1.5px solid #C5F04A;outline-offset:3px;}"
+    },
+    {
+      "name": "Inverse Pill Button",
+      "kind": "button",
+      "refersTo": "button-inverse",
+      "description": "Action on the inverse contact band (Moss Night: band is bone); lime sweeps in.",
+      "html": "<div class=\"ds-band\"><button class=\"ds-pill3\">Draft email</button></div>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500&family=Hanken+Grotesk:wght@400;500;600&display=swap'); .ds-band{background:#EEF0E4;padding:24px;} .ds-pill3{font:500 15px/1.2 'Hanken Grotesk',sans-serif;padding:13px 22px;border-radius:999px;cursor:pointer;color:#EEF0E4;border:1px solid #0E110C;background:#0E110C linear-gradient(#C5F04A,#C5F04A) no-repeat right center/0% 100%;transition:background-size .55s cubic-bezier(.16,1,.3,1),color .55s cubic-bezier(.16,1,.3,1);} .ds-pill3:hover,.ds-pill3:focus-visible{background-size:100% 100%;background-position:left center;color:#0E110C;border-color:#C5F04A;} .ds-pill3:focus-visible{outline:1.5px solid #0E110C;outline-offset:3px;}"
+    },
+    {
+      "name": "Arrow Circle",
+      "kind": "custom",
+      "refersTo": "arrow-circle",
+      "description": "The recurring 'go' motif: lime circle, north-east arrow that turns to point ahead when active.",
+      "html": "<button class=\"ds-arrow\" aria-label=\"Next\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 17L17 7M9 7h8v8\"/></svg></button>",
+      "css": ".ds-arrow{width:44px;height:44px;border-radius:50%;border:none;background:#C5F04A;color:#0E110C;display:inline-grid;place-items:center;cursor:pointer;} .ds-arrow svg{transition:transform .55s cubic-bezier(.16,1,.3,1);} .ds-arrow:hover svg,.ds-arrow:focus-visible svg{transform:rotate(45deg);} .ds-arrow:focus-visible{outline:1.5px solid #C5F04A;outline-offset:3px;}"
+    },
+    {
+      "name": "Navigation Bar",
+      "kind": "nav",
+      "refersTo": "nav-bar",
+      "description": "72px ground-filled bar, monogram circle, links with growing accentInk underline, compact lime pill.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-mono\">AR</span><div class=\"ds-links\"><a href=\"#\" class=\"ds-on\">About</a><a href=\"#\">Experience</a><a href=\"#\">Work</a><a href=\"#\">Contact</a><a href=\"#\" class=\"ds-cta\">Let's talk</a></div></nav>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500&family=Hanken+Grotesk:wght@400;500;600&display=swap'); .ds-nav{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:#0E110C;border-bottom:1px solid #2C3326;font:500 14px/1.2 'Hanken Grotesk',sans-serif;} .ds-mono{width:40px;height:40px;border:1px solid #2C3326;border-radius:50%;display:grid;place-items:center;color:#EEF0E4;font:500 16px/1 'Bricolage Grotesque',sans-serif;} .ds-links{display:flex;gap:24px;align-items:center;} .ds-links a{color:#EEF0E4;text-decoration:none;background:linear-gradient(#C5F04A,#C5F04A) no-repeat left bottom/0% 1px;padding-bottom:4px;transition:background-size .55s cubic-bezier(.16,1,.3,1),color .25s;} .ds-links a:hover,.ds-links a.ds-on{background-size:100% 1px;color:#C5F04A;} .ds-links a.ds-cta{background:#C5F04A;color:#0E110C;padding:9px 16px;border-radius:999px;} .ds-links a:focus-visible{outline:1.5px solid #C5F04A;outline-offset:3px;border-radius:4px;}"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Small tech pill on surface; outcome variant drawn in accentInk.",
+      "html": "<span class=\"ds-tag\">Flutter</span> <span class=\"ds-tag\">Clean Architecture</span> <span class=\"ds-tag ds-tag-out\">-40% faster</span>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500&family=Hanken+Grotesk:wght@400;500;600&display=swap'); .ds-tag{display:inline-block;padding:5px 11px;border-radius:999px;background:#141811;border:1px solid #2C3326;color:#A9AF9C;font:400 12.5px/1.4 'Hanken Grotesk',sans-serif;} .ds-tag-out{background:transparent;border-color:rgba(197,240,74,.6);color:#C5F04A;}"
     },
     {
       "name": "Project Card",
       "kind": "card",
       "refersTo": "card-project",
-      "description": "Case-study preview card — icon well, name, tagline, truncated context, up to 3 tech chips, 'View case study' link.",
-      "html": "<div class=\"ds-card-project\" tabindex=\"0\"><div class=\"ds-card-project-header\"><span class=\"ds-icon-well\">⚙</span><span class=\"ds-chip-pill\">3M+ users</span></div><h3 class=\"ds-card-project-title\">WalaOne</h3><p class=\"ds-card-project-tagline\">Loyalty &amp; Rewards App</p><p class=\"ds-card-project-context\">Loyalty &amp; rewards app for WalaPlus, part of a product suite serving 3M+ users.</p></div>",
-      "css": ".ds-card-project { background: rgba(26, 26, 46, 0.5); border: 1.5px solid rgba(234, 234, 234, 0.1); border-radius: 20px; padding: 20px; font-family: Outfit, sans-serif; transition: transform 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out; cursor: pointer; } .ds-card-project:hover, .ds-card-project:focus-visible { transform: translateY(-4px); border-color: rgba(0, 240, 255, 0.5); box-shadow: 0 0 20px rgba(0, 240, 255, 0.15); outline: none; } .ds-card-project-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; } .ds-icon-well { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; padding: 10px; background: rgba(0, 240, 255, 0.1); border-radius: 12px; color: #00F0FF; } .ds-chip-pill { padding: 5px 10px; background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.35); border-radius: 20px; color: #00F0FF; font-size: 11px; font-weight: 700; } .ds-card-project-title { color: #EAEAEA; font-size: 22px; font-weight: 700; margin: 0 0 4px; } .ds-card-project-tagline { color: #00F0FF; font-size: 12px; font-weight: 600; letter-spacing: 0.4px; margin: 0 0 10px; } .ds-card-project-context { color: rgba(234, 234, 234, 0.7); font-size: 14px; line-height: 1.5; margin: 0; }"
+      "description": "The only panel type: 6px corners, faint border, lifts one tonal step on hover; arrow circle turns.",
+      "html": "<a href=\"#\" class=\"ds-card\"><h3>WalaOne</h3><p class=\"ds-cap\">Loyalty &amp; Rewards · 3M+ users</p><p class=\"ds-body\">Loyalty and rewards app for WalaPlus, part of a product suite serving 3M+ users.</p><p class=\"ds-out\"><i></i>60% faster load times</p><span class=\"ds-tag\">Flutter</span> <span class=\"ds-tag\">Caching</span><span class=\"ds-go\">Read case study <b><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 17L17 7M9 7h8v8\"/></svg></b></span></a>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500&family=Hanken+Grotesk:wght@400;500;600&display=swap'); .ds-card{display:block;max-width:420px;padding:32px;border-radius:6px;background:#141811;border:1px solid #1B2017;color:#EEF0E4;text-decoration:none;transition:background .55s cubic-bezier(.2,.7,.2,1),border-color .55s;} .ds-card:hover,.ds-card:focus-visible{background:#191E15;border-color:#2C3326;} .ds-card:focus-visible{outline:1.5px solid #C5F04A;outline-offset:3px;} .ds-card h3{margin:0;font:500 36px/1.15 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;} .ds-cap{margin:6px 0 14px;color:#858C78;font:400 14px/1.4 'Hanken Grotesk',sans-serif;} .ds-body{color:#A9AF9C;font:400 15.5px/1.6 'Hanken Grotesk',sans-serif;margin:0 0 20px;} .ds-out{display:flex;gap:10px;align-items:center;font:500 15px/1.2 'Hanken Grotesk',sans-serif;margin:0 0 18px;} .ds-out i{width:7px;height:7px;border-radius:50%;background:#C5F04A;} .ds-tag{display:inline-block;padding:5px 11px;border-radius:999px;background:#141811;border:1px solid #2C3326;color:#A9AF9C;font:400 12.5px/1.4 'Hanken Grotesk',sans-serif;} .ds-go{display:flex;align-items:center;gap:12px;margin-top:24px;font:600 14px/1.2 'Hanken Grotesk',sans-serif;} .ds-go b{width:32px;height:32px;border-radius:50%;background:#C5F04A;color:#0E110C;display:grid;place-items:center;} .ds-go svg{width:14px;height:14px;transition:transform .55s cubic-bezier(.16,1,.3,1);} .ds-card:hover .ds-go svg{transform:rotate(45deg);}"
     },
     {
-      "name": "Tech Chip",
-      "kind": "chip",
-      "refersTo": "chip-tag",
-      "description": "Small accent-tinted tag for technologies, used inside project cards.",
-      "html": "<span class=\"ds-chip-tag\">Flutter</span>",
-      "css": ".ds-chip-tag { display: inline-block; padding: 4px 8px; background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.35); border-radius: 8px; color: #00F0FF; font-family: Outfit, sans-serif; font-size: 10px; font-weight: 500; }"
-    },
-    {
-      "name": "Text Input",
+      "name": "Underline Field",
       "kind": "input",
-      "refersTo": "input-field",
-      "description": "Contact form field — filled, icon-prefixed, floating label, accent focus border.",
-      "html": "<label class=\"ds-input-wrap\"><span class=\"ds-input-icon\" aria-hidden=\"true\">✉</span><input class=\"ds-input\" type=\"text\" placeholder=\"Name\" /></label>",
-      "css": ".ds-input-wrap { display: flex; align-items: center; gap: 8px; background: rgba(224, 224, 224, 0.5); border: 1px solid transparent; border-radius: 12px; padding: 14px 16px; transition: border-color 0.15s ease-out; } .ds-input-wrap:focus-within { border-color: #00F0FF; } .ds-input-icon { color: #00F0FF; } .ds-input { flex: 1; background: transparent; border: none; outline: none; color: #EAEAEA; font-family: Outfit, sans-serif; font-size: 16px; } .ds-input::placeholder { color: rgba(234, 234, 234, 0.6); }"
+      "refersTo": "",
+      "description": "Contact-band input: underline only, thickens to full onInverse on focus.",
+      "html": "<div class=\"ds-band2\"><label class=\"ds-fl\">Name<input class=\"ds-in\" placeholder=\"Your name\"></label></div>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500&family=Hanken+Grotesk:wght@400;500;600&display=swap'); .ds-band2{background:#EEF0E4;padding:24px;} .ds-fl{display:block;color:#4E5343;font:600 12px/1.2 'Hanken Grotesk',sans-serif;letter-spacing:1.7px;} .ds-in{display:block;width:100%;margin-top:6px;border:none;border-bottom:1px solid rgba(14,17,12,.25);background:transparent;padding:8px 0;color:#0E110C;font:400 16px/1.6 'Hanken Grotesk',sans-serif;letter-spacing:0;} .ds-in:focus{outline:none;border-bottom:1.5px solid #0E110C;} .ds-in::placeholder{color:rgba(78,83,67,.8);}"
     },
     {
-      "name": "Nav Link",
-      "kind": "nav",
-      "refersTo": "nav-link",
-      "description": "Desktop top-nav item — animated underline, active/hover accent states.",
-      "html": "<a class=\"ds-nav-link ds-nav-link--active\" href=\"#\">Home</a><a class=\"ds-nav-link\" href=\"#\">About</a>",
-      "css": ".ds-nav-link { display: inline-block; margin: 0 4px; padding: 8px 12px; font-family: Outfit, sans-serif; font-size: 15px; font-weight: 400; color: rgba(234, 234, 234, 0.7); text-decoration: none; border-bottom: 2px solid transparent; transition: color 0.2s ease-out, border-color 0.2s ease-out, transform 0.2s ease-out; } .ds-nav-link:hover { color: #FF007F; border-color: rgba(255, 0, 127, 0.4); transform: translateY(-1px); } .ds-nav-link--active { color: #00F0FF; border-color: #00F0FF; font-weight: 600; }"
-    },
-    {
-      "name": "Social Icon",
+      "name": "Product Bar Row",
       "kind": "custom",
-      "refersTo": "social-icon",
-      "description": "Circular outbound-link icon button (LinkedIn, GitHub) — the one place secondary accent drives the interactive color.",
-      "html": "<button class=\"ds-social-icon\" aria-label=\"Open GitHub\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14 0 1.55-.01 2.79-.01 3.17 0 .31.21.67.8.56C20.71 21.39 24 17.08 24 12c0-6.27-5.23-11.5-12-11.5z\"/></svg></button>",
-      "css": ".ds-social-icon { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 12px; background: rgba(234, 234, 234, 0.05); border: 1px solid rgba(234, 234, 234, 0.2); border-radius: 999px; color: #EAEAEA; cursor: pointer; transition: transform 0.16s ease-out, border-color 0.16s ease-out, box-shadow 0.16s ease-out, color 0.16s ease-out; } .ds-social-icon:hover, .ds-social-icon:focus-visible { transform: scale(1.12); border-color: rgba(255, 0, 127, 0.7); color: #FF007F; box-shadow: 0 0 16px rgba(255, 0, 127, 0.25); outline: none; }"
-    },
-    {
-      "name": "Story Stage Chip",
-      "kind": "chip",
-      "refersTo": "engineering-story-strip",
-      "description": "Signature component — a chain of pill chips connected by forward arrows, tracing a real greenfield/legacy-to-shipped engineering narrative. Only rendered when a project's config supplies real stages.",
-      "html": "<div class=\"ds-story-strip\"><span class=\"ds-story-chip\">Greenfield</span><span class=\"ds-story-arrow\">→</span><span class=\"ds-story-chip\">Architecture</span><span class=\"ds-story-arrow\">→</span><span class=\"ds-story-chip\">Ship</span></div>",
-      "css": ".ds-story-strip { display: flex; align-items: center; gap: 6px; overflow-x: auto; } .ds-story-chip { padding: 8px 12px; background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.35); border-radius: 20px; color: #00F0FF; font-family: Outfit, sans-serif; font-size: 12px; font-weight: 600; white-space: nowrap; } .ds-story-arrow { color: rgba(234, 234, 234, 0.5); font-size: 14px; }"
+      "refersTo": "",
+      "description": "One row of the users-per-product instrument: name and outcomes left, signal pill bar on a shared axis, numeral value at its end.",
+      "html": "<div class=\"ds-row\"><div><strong>WalaPlus</strong><small>40% faster load times · 60% unit test coverage</small></div><div class=\"ds-track\"><span style=\"width:88%\"></span><em>4M+</em></div></div>",
+      "css": "@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500&family=Hanken+Grotesk:wght@400;500;600&display=swap'); .ds-row{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:center;padding:12px 0;border-top:1px solid #1B2017;color:#EEF0E4;} .ds-row strong{display:block;font:500 14px/1.2 'Hanken Grotesk',sans-serif;} .ds-row small{color:#C5F04A;font:400 12px/1.4 'Hanken Grotesk',sans-serif;} .ds-track{position:relative;height:40px;background:repeating-linear-gradient(90deg,#2C3326 0 1px,transparent 1px 25%);} .ds-track span{position:absolute;left:0;top:14px;height:12px;border-radius:999px;background:#C5F04A;transition:width .9s cubic-bezier(.16,1,.3,1);} .ds-track em{position:absolute;right:4%;top:6px;font:500 24px/1 'Bricolage Grotesque',sans-serif;font-style:normal;letter-spacing:-.04em;font-variant-numeric:tabular-nums;}"
     }
   ],
   "narrative": {
-    "northStar": "Mission Control",
-    "overview": "The site reads as a calm, high-stakes systems console at night: near-black surfaces, a slow-drifting starfield, and an orbiting ring of labeled engineering-discipline nodes (Flutter, Architecture, Performance, Security, Testing, CI/CD, Firebase, API) behind the hero. Two accent signals — signal cyan and alert pink — behave like telemetry, not decoration: they mark what's active, what's primary, what just responded to your cursor. Everything else stays disciplined — near-black or near-white surfaces, hairline borders, and generous whitespace — so the accents and the evidence (real user counts, real percentages, real case studies) are what a visitor's eye lands on.\n\nThe philosophy is precise and restrained, not loud. Motion exists to confirm interaction (a button scales, a card lifts, a metric counts up once) rather than to perform. The one deliberate rejection the codebase already states outright: no glassmorphism, no heavy gradients. Where the UI feels \"glassy\" (the pill buttons, the translucent card fills), it's a thin tinted border and a soft fill — never a blurred backdrop panel pretending to be frosted glass. The single exception is the app bar, which does apply a real BackdropFilter blur once scrolled, and it is intentional: a light instrument-panel cue that the console has compacted, not a decorative motif repeated elsewhere.\n\nDepth is ambient, not staged. The system doesn't reserve shadow purely as a hover reward — dark-mode surfaces are already translucent tints over the void (card fills sit at partial opacity over space-black, not flat opaque panels), hairline borders are present at rest, and the starfield/orbit backgrounds give the whole scene a sense of depth before a single element is touched. Hover/focus states then add a directional accent glow on top of that ambient base — an amplification, not the only source of depth.",
+    "northStar": "Moss Night, the Field Ledger",
+    "overview": "An engineer's field ledger: evidence set in big, confident, tightly tracked type and drawn as honest charts, not described in cards of adjectives. Bone ink sits on an olive-black ground; one phosphor-lime signal marks what matters (the primary action, the data, the current role). Structure comes from hairlines, not boxes, shadows, or light effects. The page reads as a sequence of full-width bands, each opened by a large heading and a short lead, then a ledger of rows, a chart, or (for case studies only) a grid of panels.\n\nThe world ships in two themes with the same roles. \"Moss Night\" (dark, default) and \"Bone Day\" (light) swap ground and ink; the lime fill stays identical in both, while text-set and data-set accent drop to deeper greens in Bone Day so they clear contrast on the bone ground. The closing contact band is the inverse of whichever theme is active.\n\nMotion is entrance and evidence only: the hero name rises line by line from behind masks, sections fade up a short distance as they enter, chart bars and timeline spans grow to their true lengths. Every one of these has a reduced-motion fallback that renders the final state immediately.",
     "keyCharacteristics": [
-      "Dark-first \"Mission Control\" identity: near-black space tones, a starfield, and an orbiting engineering-node motif behind the hero.",
-      "Two-signal accent system (signal cyan / alert pink) used sparingly against otherwise neutral surfaces.",
-      "Ambient depth at rest (translucent tinted surfaces, visible hairline borders) amplified by accent-tinted glow on hover/focus — never flat-then-nothing.",
-      "Outfit throughout, at Material 3's default type scale — no custom font pairing.",
-      "Tactile-but-understated components: outlined and tinted, never solid-filled or glassmorphic; every interactive element scales, lifts, or glows in direct response to touch.",
-      "A parallel light theme that keeps the same structure and interaction language but trades the starfield/space palette for a plain, high-contrast, WCAG AA-checked surface."
+      "Olive-black ground, bone ink, one phosphor-lime signal; no secondary hue.",
+      "Lime is a fill with dark ink on it, or a 1px rule; never body text in Bone Day.",
+      "Bricolage Grotesque at poster scale with negative tracking; Hanken Grotesk for everything read or scanned.",
+      "Hairline rows over card grids; project cards are the only panel type.",
+      "Flat: no shadows, no glass, no glow, no decorative gradients.",
+      "Full pills and circles for every control; 6px radius for the one panel type.",
+      "Sweep-fill buttons and the arrow-circle \"go\" motif carry interaction."
     ],
     "rules": [
-      { "name": "The Signal Rarity Rule", "body": "Signal Cyan / Deep Teal appears on active state, primary CTAs, and icon accents only — never as a large fill. If more than roughly one element per view carries full-strength accent color, it has stopped signaling and started decorating.", "section": "colors" },
-      { "name": "The No-Fabricated-Glass Rule", "body": "Translucency and thin borders read as \"glass-adjacent,\" but there is no backdrop blur anywhere except the scrolled app bar. Don't add BackdropFilter blur to cards, buttons, or the mobile menu to chase a frosted-glass look — that is the one rejected direction this system already committed against.", "section": "colors" },
-      { "name": "The One-Display Rule", "body": "displayMedium (the Display role) is used exactly once per page — the hero name. Every other heading, however large it reads visually, is a Headline or Title. This keeps the name as the unambiguous single largest text element on the site.", "section": "typography" },
-      { "name": "The No-Shadow-At-Rest Rule", "body": "Nothing casts a boxShadow before it's touched or focused. If a static (non-hover) shadow shows up on a new component, that's a regression against this system's interaction language.", "section": "elevation" }
+      {
+        "name": "The Three-Jobs Lime Rule",
+        "body": "The accent has three tokens and each has one job: `accent` is a fill (always with On-Lime Ink on it), `accentInk` is text or a 1px line, `signal` is a data mark. Never set lime text on the bone ground; reach for `accentInk`.",
+        "section": "colors"
+      },
+      {
+        "name": "The Inverse Band Rule",
+        "body": "The contact band uses `inverse` / `onInverse`: bone with olive-black ink in Moss Night, olive-black with bone ink in Bone Day. Its buttons use the inverse variants, whose hover sweeps lime.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Signal Rule",
+        "body": "There is no secondary or tertiary hue. Status, emphasis, and data all come from lime and its two deeper greens; everything else is olive neutral.",
+        "section": "colors"
+      },
+      {
+        "name": "The No-Eyebrow Rule",
+        "body": "No small label sits above a heading. Section headers are a headline and an optional lead; the heading carries its own weight. Label style appears only as a field label or as the left-hand label of a definition row.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tight Display Rule",
+        "body": "Bricolage is always weight 500 with negative tracking proportional to size (-0.045em hero, -0.035em headline, -0.02em title). Never set it light, bold, or uppercase.",
+        "section": "typography"
+      },
+      {
+        "name": "The Hairline-Not-Shadow Rule",
+        "body": "Separation is a 1px line in `line` or `lineFaint`. If something needs to feel raised, change its fill one tonal step; never add a shadow, blur, or glow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Two Gradients Rule",
+        "body": "Gradients exist only as functional masks: the bottom scrim on the hero portrait (ground at 85% to 0% over the lower 45%) so its caption reads, and the alpha edge-fade on the toolbox marquee. No decorative gradient fills, text, or borders.",
+        "section": "elevation"
+      }
     ],
     "dos": [
-      "Do treat Signal Cyan / Deep Teal as the primary interactive signal and Alert Pink / Berry Rose as the secondary one — don't swap their roles or use them interchangeably.",
-      "Do keep every card and button flat (no boxShadow) at rest, adding glow only on hover/focus.",
-      "Do use Outfit at Material 3's default type scale; don't introduce a second font family.",
-      "Do reserve full-pill (30px) radius for buttons/badges and 20-24px for cards/panels — keep the radius scale to these five steps.",
-      "Do gate the Engineering Story Strip component on real storyStages data — never invent a narrative arc for a project that doesn't have one.",
-      "Do keep the starfield/orbit motif dark-theme-only; the light theme reads on a plain surface by design."
+      "**Do** put dark On-Lime Ink on every lime fill, and use `accentInk` for any accent text or 1px accent line.",
+      "**Do** draw data marks in `signal` so they hold 3:1 in Bone Day.",
+      "**Do** separate content with 1px hairlines (`line`, `lineFaint`) and lay lists out as rows.",
+      "**Do** put every number inside the chart or row it measures, with its product named beside it.",
+      "**Do** use full pills or circles for controls and the 6px radius only for panels and tooltips.",
+      "**Do** route every interactive element through the shared focus ring (1.5px `accentInk`, outside the element).",
+      "**Do** give every entrance or growth animation a reduced-motion final state.",
+      "**Do** flip the contact band to the inverse of the active theme."
     ],
     "donts": [
-      "Don't add glassmorphism (backdrop-blur panels) or heavy gradients anywhere outside the already-established scrolled app bar. This is a standing, explicit rejection, not an oversight.",
-      "Don't apply a static (non-hover) shadow to any component — it breaks the \"ambient translucency at rest, glow on touch\" depth model.",
-      "Don't fabricate metrics, testimonials, or project facts to fill out a component — every number and case study must trace to assets/config.json or the CV.",
-      "Don't let the accent colors cover more than roughly one element's worth of a given view — their power comes from rarity."
+      "**Don't** put an eyebrow, kicker, or status pill above a heading.",
+      "**Don't** build strips of metric tiles; a number without its product and its chart is not evidence here.",
+      "**Don't** turn content into card grids; project cards are the only panel type.",
+      "**Don't** add shadows, glass or backdrop blur, glows, or decorative gradients; the portrait scrim and the marquee edge-fade are the only gradients.",
+      "**Don't** set lime as text on the bone ground, or put light ink on a lime fill.",
+      "**Don't** introduce a second accent hue.",
+      "**Don't** set Bricolage Grotesque in uppercase, light, or bold weights."
     ]
   }
 }

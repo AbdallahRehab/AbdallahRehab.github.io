@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
 import '../../../core/theme/app_theme.dart';
 
-/// A small horizontal "stage strip" for projects with a real before/after
-/// engineering narrative (e.g. legacy → modernized, or greenfield → scaled).
-/// Only rendered when the project config supplies `storyStages` — projects
-/// without one don't get a fabricated arc.
+/// A horizontal step track for projects with a real before/after
+/// engineering narrative (e.g. greenfield → scaled). Only rendered when the
+/// project config supplies `storyStages` — projects without one don't get a
+/// fabricated arc. The final stage, where it landed, is filled.
 class EngineeringStoryStrip extends StatelessWidget {
   final List<String> stages;
 
@@ -12,41 +13,40 @@ class EngineeringStoryStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accent = AppTheme.primaryColor(context);
-    final textSecondary = AppTheme.textColorSecondary(context);
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          for (int i = 0; i < stages.length; i++) ...[
-            if (i > 0)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6),
-                child: Icon(
-                  Icons.arrow_forward_rounded,
-                  size: 14,
-                  color: textSecondary.withValues(alpha: 0.5),
+    final p = context.palette;
+    return Semantics(
+      label: 'Engineering story: ${stages.join(', then ')}',
+      excludeSemantics: true,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            for (var i = 0; i < stages.length; i++) ...[
+              if (i > 0) Container(width: 16, height: 1, color: p.line),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: i == stages.length - 1 ? p.accent : null,
+                  borderRadius: BorderRadius.circular(Space.pill),
+                  border: Border.all(
+                    color: i == stages.length - 1 ? p.accent : p.line,
+                  ),
+                ),
+                child: Text(
+                  stages[i],
+                  style: AppType.caption(context).copyWith(
+                    fontSize: 12.5,
+                    color: i == stages.length - 1 ? p.onAccent : p.inkMuted,
+                    fontWeight: i == stages.length - 1 ? FontWeight.w600 : null,
+                  ),
                 ),
               ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppTheme.chipBackground(context),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppTheme.chipBorder(context)),
-              ),
-              child: Text(
-                stages[i],
-                style: TextStyle(
-                  color: accent,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

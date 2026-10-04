@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/glass_button.dart';
-import '../../../../core/widgets/motion.dart';
 
+import '../../core/site_links.dart';
+import '../../core/theme/app_theme.dart';
+import '../../core/widgets/buttons.dart';
+import '../../core/widgets/motion.dart';
+import '../../core/widgets/pressable.dart';
+import '../../core/widgets/section.dart';
+
+/// The closing inverse band: bone in dark mode, olive-black in light mode.
+/// A direct email action and outbound links on the left, a short form that
+/// drafts an email on the right.
 class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
 
@@ -17,6 +25,7 @@ class _ContactSectionState extends State<ContactSection> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _messageController = TextEditingController();
+  static final _emailPattern = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
   @override
   void dispose() {
@@ -26,198 +35,355 @@ class _ContactSectionState extends State<ContactSection> {
     super.dispose();
   }
 
+  void _toast(String message) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(message)));
+  }
+
   Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      final name = _nameController.text;
-      final email = _emailController.text;
-      final message = _messageController.text;
-
-      final Uri emailLaunchUri = Uri(
-        scheme: 'mailto',
-        path: 'abdorehab95@gmail.com',
-        query: _encodeQueryParameters(<String, String>{
-          'subject': 'Portfolio Contact: $name',
-          'body': 'Name: $name\nEmail: $email\n\nMessage:\n$message',
-        }),
-      );
-
-      try {
-        if (await canLaunchUrl(emailLaunchUri)) {
-          await launchUrl(emailLaunchUri);
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Opening email client...'),
-                backgroundColor: AppTheme.neonCyan,
-              ),
-            );
-          }
-        } else {
-          throw 'Could not launch email client';
-        }
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Could not open email client. Please email manually to abdorehab95@gmail.com',
-              ),
-              backgroundColor: AppTheme.neonPink,
-            ),
-          );
-        }
+    if (!_formKey.currentState!.validate()) return;
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final message = _messageController.text.trim();
+    final uri = Uri(
+      scheme: 'mailto',
+      path: SiteLinks.email,
+      query:
+          <String, String>{
+                'subject': 'Portfolio contact: $name',
+                'body': 'Name: $name\nEmail: $email\n\n$message',
+              }.entries
+              .map(
+                (e) =>
+                    '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
+              )
+              .join('&'),
+    );
+    try {
+      final opened = await launchUrl(uri);
+      if (!opened) throw StateError('no mail client');
+      if (mounted) _toast('Opening your email app with the message drafted…');
+    } catch (_) {
+      if (mounted) {
+        _toast(
+          "Couldn't open an email app. Write to ${SiteLinks.email} directly.",
+        );
       }
     }
   }
 
-  String? _encodeQueryParameters(Map<String, String> params) {
-    return params.entries
-        .map(
-          (e) =>
-              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
-        )
-        .join('&');
+  Future<void> _copyEmail() async {
+    await Clipboard.setData(const ClipboardData(text: SiteLinks.email));
+    if (mounted) _toast('Email address copied');
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 80),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600),
-          child: Column(
+    final p = context.palette;
+    return Section(
+      background: p.inverse,
+      topRule: false,
+      paddingTop: AppType.fluid(context, 72, 152),
+      paddingBottom: AppType.fluid(context, 72, 152),
+      child: LayoutBuilder(
+        builder: (context, c) {
+          final wide = c.maxWidth > 900;
+          final pitch = _Pitch(onCopy: _copyEmail);
+          final form = Reveal(
+            delay: const Duration(milliseconds: 150),
+            child: _ContactForm(
+              formKey: _formKey,
+              name: _nameController,
+              email: _emailController,
+              message: _messageController,
+              emailPattern: _emailPattern,
+              onSubmit: _submitForm,
+            ),
+          );
+          if (!wide) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [pitch, const SizedBox(height: 56), form],
+            );
+          }
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Semantics(
-                header: true,
-                child: Text(
-                  'Have a mobile product\nthat needs to scale?',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                    color: AppTheme.textColor(context),
-                    fontWeight: FontWeight.bold,
-                    height: 1.2,
-                  ),
-                ),
-              ).animatedUnlessReduced(
-                context,
-                (w) => w.animate().fadeIn().slideY(begin: 0.2, end: 0),
+              Expanded(flex: 11, child: pitch),
+              SizedBox(width: AppType.fluid(context, 40, 96)),
+              Expanded(flex: 8, child: form),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _Pitch extends StatelessWidget {
+  final VoidCallback onCopy;
+
+  const _Pitch({required this.onCopy});
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.palette;
+    final size = AppType.fluid(context, 40, 84);
+    final links = <(IconData, String, VoidCallback)>[
+      (
+        FontAwesomeIcons.linkedinIn.data,
+        'LinkedIn',
+        () => Pressable.open(SiteLinks.linkedIn),
+      ),
+      (
+        FontAwesomeIcons.github.data,
+        'GitHub',
+        () => Pressable.open(SiteLinks.gitHub),
+      ),
+      (
+        FontAwesomeIcons.whatsapp.data,
+        'WhatsApp',
+        () => Pressable.open(SiteLinks.whatsApp),
+      ),
+      (FontAwesomeIcons.xTwitter.data, 'X', () => Pressable.open(SiteLinks.x)),
+      (
+        Icons.download_rounded,
+        'Download CV',
+        () => launchUrl(SiteLinks.cv, mode: LaunchMode.externalApplication),
+      ),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Reveal(
+          child: Semantics(
+            header: true,
+            child: Text(
+              'Have a mobile product that needs to scale?',
+              style: AppType.h2(context).copyWith(
+                fontSize: size,
+                letterSpacing: -size * 0.045,
+                height: 1,
+                color: p.onInverse,
               ),
-
-              const SizedBox(height: 16),
-
-              Text(
-                'Let\'s build something reliable, fast, and production-ready.',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppTheme.textColorSecondary(context)),
-              ).animatedUnlessReduced(
-                context,
-                (w) => w.animate().fadeIn(delay: 80.ms),
+            ),
+          ),
+        ),
+        const SizedBox(height: 24),
+        Reveal(
+          delay: const Duration(milliseconds: 80),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 460),
+            child: Text(
+              "Let's build something reliable, fast, and production-ready — "
+              'whether you are hiring for a senior Flutter role or need an '
+              'app built.',
+              style: AppType.lead(context).copyWith(color: p.onInverseMuted),
+            ),
+          ),
+        ),
+        const SizedBox(height: 40),
+        Reveal(
+          delay: const Duration(milliseconds: 140),
+          child: Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              PillButton(
+                label: SiteLinks.email,
+                icon: Icons.mail_outline_rounded,
+                variant: PillVariant.inverse,
+                large: true,
+                semanticLabel: 'Email ${SiteLinks.email}',
+                onPressed: () =>
+                    launchUrl(Uri(scheme: 'mailto', path: SiteLinks.email)),
               ),
-
-              const SizedBox(height: 40),
-
-              Container(
-                padding: const EdgeInsets.all(32),
-                decoration: BoxDecoration(
-                  color: AppTheme.cardColor(context),
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: AppTheme.borderColor(context)),
-                ),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      _buildTextField(
-                        controller: _nameController,
-                        label: 'Name',
-                        icon: Icons.person_outline,
-                      ),
-                      const SizedBox(height: 20),
-                      _buildTextField(
-                        controller: _emailController,
-                        label: 'Email',
-                        icon: Icons.email_outlined,
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(height: 20),
-                      _buildTextField(
-                        controller: _messageController,
-                        label: 'Message',
-                        icon: Icons.message_outlined,
-                        maxLines: 5,
-                      ),
-                      const SizedBox(height: 32),
-                      GlassButton(
-                        text: 'Send Message',
-                        icon: Icons.send_rounded,
-                        onPressed: _submitForm,
-                      ),
-                      const SizedBox(height: 24),
-                      TextButton.icon(
-                        onPressed: () {
-                          launchUrl(Uri.parse('mailto:abdorehab95@gmail.com'));
-                        },
-                        icon: Icon(
-                          Icons.email,
-                          color: AppTheme.textColorSecondary(context),
-                        ),
-                        label: Text(
-                          'Or email me directly at abdorehab95@gmail.com',
-                          style: TextStyle(
-                            color: AppTheme.textColorSecondary(context),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ).animatedUnlessReduced(
-                context,
-                (w) => w.animate().fadeIn(delay: 200.ms).slideY(begin: 0.2, end: 0),
+              CircleIconButton(
+                icon: Icons.content_copy_rounded,
+                semanticLabel: 'Copy email address',
+                size: 52,
+                onInverse: true,
+                onPressed: onCopy,
               ),
             ],
           ),
         ),
-      ),
+        const SizedBox(height: 48),
+        Reveal(
+          delay: const Duration(milliseconds: 200),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.only(top: 24),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(color: p.onInverse.withValues(alpha: 0.15)),
+              ),
+            ),
+            child: Wrap(
+              spacing: 28,
+              runSpacing: 12,
+              children: [
+                for (final (icon, label, onTap) in links)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(icon, size: 15, color: p.onInverse),
+                      const SizedBox(width: 8),
+                      InlineLink(
+                        label: label,
+                        onTap: onTap,
+                        underline: p.onInverse,
+                        style: AppType.ui(
+                          context,
+                          size: 15,
+                        ).copyWith(color: p.onInverse),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
+}
 
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    required IconData icon,
-    int maxLines = 1,
-    TextInputType? keyboardType,
-  }) {
-    return TextFormField(
-      controller: controller,
-      maxLines: maxLines,
-      keyboardType: keyboardType,
-      style: TextStyle(color: AppTheme.textColor(context)),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your $label';
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: TextStyle(color: AppTheme.textColorSecondary(context)),
-        prefixIcon: Icon(icon, color: AppTheme.primaryColor(context)),
-        filled: true,
-        fillColor: AppTheme.borderColor(context).withValues(alpha: 0.5),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+class _ContactForm extends StatelessWidget {
+  final GlobalKey<FormState> formKey;
+  final TextEditingController name;
+  final TextEditingController email;
+  final TextEditingController message;
+  final RegExp emailPattern;
+  final VoidCallback onSubmit;
+
+  const _ContactForm({
+    required this.formKey,
+    required this.name,
+    required this.email,
+    required this.message,
+    required this.emailPattern,
+    required this.onSubmit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.palette;
+    // Error ink tuned to each inverse ground so it stays readable.
+    final error = context.isDark
+        ? const Color(0xFF9E2A1E)
+        : const Color(0xFFFF9C8A);
+
+    InputDecoration deco(String label, String hint) => InputDecoration(
+      labelText: label,
+      hintText: hint,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      // Floating labels render at 75%, so these land at ~12px.
+      labelStyle: AppType.label(
+        context,
+        color: p.onInverseMuted,
+      ).copyWith(fontSize: 16, letterSpacing: 1.6),
+      floatingLabelStyle: AppType.label(
+        context,
+        color: p.onInverse,
+      ).copyWith(fontSize: 16, letterSpacing: 1.6),
+      hintStyle: AppType.body(
+        context,
+      ).copyWith(color: p.onInverseMuted.withValues(alpha: 0.8)),
+      errorStyle: AppType.caption(context).copyWith(color: error),
+      contentPadding: const EdgeInsets.only(top: 14, bottom: 12),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: p.onInverse.withValues(alpha: 0.25)),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: p.onInverse, width: 1.5),
+      ),
+      errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: error)),
+      focusedErrorBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: error, width: 1.5),
+      ),
+    );
+
+    final textStyle = AppType.body(
+      context,
+      size: 17,
+    ).copyWith(color: p.onInverse);
+
+    return Theme(
+      data: Theme.of(context).copyWith(
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: p.onInverse,
+          selectionColor: p.accent.withValues(alpha: 0.5),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.borderColor(context)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.primaryColor(context)),
+      ),
+      child: Form(
+        key: formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Or send a note',
+              style: AppType.h3(context).copyWith(color: p.onInverse),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'It opens your email app with the message ready to send.',
+              style: AppType.body(
+                context,
+                size: 14.5,
+              ).copyWith(color: p.onInverseMuted),
+            ),
+            const SizedBox(height: 28),
+            TextFormField(
+              controller: name,
+              style: textStyle,
+              textInputAction: TextInputAction.next,
+              autofillHints: const [AutofillHints.name],
+              decoration: deco('Name', 'Your name'),
+              validator: (v) => (v == null || v.trim().isEmpty)
+                  ? 'Add your name so I know who is writing.'
+                  : null,
+            ),
+            const SizedBox(height: 24),
+            TextFormField(
+              controller: email,
+              style: textStyle,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              autofillHints: const [AutofillHints.email],
+              decoration: deco('Email', 'you@company.com'),
+              validator: (v) {
+                if (v == null || v.trim().isEmpty) {
+                  return 'Add an email so I can reply.';
+                }
+                if (!emailPattern.hasMatch(v.trim())) {
+                  return 'That email looks incomplete — check for typos.';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 24),
+            TextFormField(
+              controller: message,
+              style: textStyle,
+              minLines: 3,
+              maxLines: 6,
+              decoration: deco('Message', 'What are you building?'),
+              validator: (v) => (v == null || v.trim().isEmpty)
+                  ? 'Tell me a little about the project or role.'
+                  : null,
+            ),
+            const SizedBox(height: 32),
+            PillButton(
+              label: 'Draft email',
+              icon: Icons.north_east_rounded,
+              variant: PillVariant.inverse,
+              onPressed: onSubmit,
+            ),
+          ],
         ),
       ),
     );
