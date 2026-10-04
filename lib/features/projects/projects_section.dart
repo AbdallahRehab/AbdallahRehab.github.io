@@ -54,6 +54,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
           ),
           ResponsiveGrid(
             columnsFor: (w) => w > 760 ? 2 : 1,
+            equalHeight: true,
             children: [
               for (var i = 0; i < _projects.length; i++)
                 ProjectCard(

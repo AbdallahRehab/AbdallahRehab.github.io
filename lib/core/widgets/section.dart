@@ -220,11 +220,16 @@ class ResponsiveGrid extends StatelessWidget {
   final double gap;
   final double runGap;
 
+  /// Stretch every cell in a row to the tallest one. Only needed when a
+  /// cell pins content to its bottom edge (e.g. project cards).
+  final bool equalHeight;
+
   const ResponsiveGrid({
     super.key,
     required this.children,
     required this.columnsFor,
     this.gap = Space.gap,
+    this.equalHeight = false,
     double? runGap,
   }) : runGap = runGap ?? gap;
 
@@ -239,23 +244,20 @@ class ResponsiveGrid extends StatelessWidget {
             i,
             (i + columns).clamp(0, children.length),
           );
-          rows.add(
-            IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  for (var j = 0; j < columns; j++) ...[
-                    if (j > 0) SizedBox(width: gap),
-                    Expanded(
-                      child: j < slice.length
-                          ? slice[j]
-                          : const SizedBox.shrink(),
-                    ),
-                  ],
-                ],
-              ),
-            ),
+          final row = Row(
+            crossAxisAlignment: equalHeight
+                ? CrossAxisAlignment.stretch
+                : CrossAxisAlignment.start,
+            children: [
+              for (var j = 0; j < columns; j++) ...[
+                if (j > 0) SizedBox(width: gap),
+                Expanded(
+                  child: j < slice.length ? slice[j] : const SizedBox.shrink(),
+                ),
+              ],
+            ],
           );
+          rows.add(equalHeight ? IntrinsicHeight(child: row) : row);
           if (i + columns < children.length) rows.add(SizedBox(height: runGap));
         }
         return Column(

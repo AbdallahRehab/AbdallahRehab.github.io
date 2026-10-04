@@ -276,24 +276,24 @@ class InlineLink extends StatelessWidget {
       isLink: true,
       focusRadius: 4,
       semanticLabel: label,
-      builder: (context, active) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      // The underline is positioned against the text's own width, so the
+      // link works inside unbounded rows too.
+      builder: (context, active) => Stack(
         children: [
-          Text(label, style: base),
-          const SizedBox(height: 3),
-          SizedBox(
-            height: 1,
-            child: LayoutBuilder(
-              builder: (context, c) => Align(
-                alignment: Alignment.centerLeft,
-                child: AnimatedContainer(
-                  duration: Space.slow,
-                  curve: Space.expo,
-                  width: active ? c.maxWidth : 0,
-                  color: underline ?? p.accentInk,
-                ),
-              ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: Text(label, style: base),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: AnimatedFractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              duration: Space.slow,
+              curve: Space.expo,
+              widthFactor: active ? 1 : 0,
+              child: Container(height: 1, color: underline ?? p.accentInk),
             ),
           ),
         ],
