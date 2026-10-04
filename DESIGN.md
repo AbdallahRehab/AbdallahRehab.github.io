@@ -204,7 +204,7 @@ A two-theme, single-signal palette: warm olive neutrals with one acid-lime accen
 - **Display** (500, 46px to 92px, 0.98): the hero name only, once per page, revealed line by line; the final line may be set in `accentInk`.
 - **Headline** (500, 36px to 68px, 1.02): section titles, max 820px wide. One accent phrase per headline at most.
 - **Title** (500, 22px to 26px, 1.15): role names, pillar titles, project names (set larger, 30px to 40px, on project cards), form headings.
-- **Numeral** (500, size set per use, 0.95, tabular figures): chart headline figures and bar values ("6+", "4M+"), always beside the chart or row they quantify.
+- **Numeral** (500, size set per use, 0.95, tabular figures): chart headline figures and bar values ("6+", "3.5M+"), always beside the chart or row they quantify.
 - **Lead** (400, 17px to 19px, 1.5): one paragraph under a headline, max 560px.
 - **Body** (400, 16px default, 15 to 17.5px in context, 1.6): prose in `inkMuted`.
 - **UI** (500, 14px default, 1.2): buttons, nav links, emphasized one-liners such as a project's headline outcome.
@@ -220,7 +220,7 @@ A two-theme, single-signal palette: warm olive neutrals with one acid-lime accen
 
 A single 1200px column centred with a fluid side gutter (16px on phones to 32px on desktop). Each section is a full-bleed band with a faint top hairline and fluid vertical padding (64px to 120px); headers sit above content with 36px to 64px below them. The page reads top to bottom as bands, not as a dashboard.
 
-Content inside bands is mostly hairline rows: the experience timeline (date column, node, body), the pillar row (four columns each topped by a 1px rule whose lime segment grows on hover), the skills ledger (category over a dotted inline list), the AI-workflow list, and the users-per-product chart (product name and its measured outcomes on the left, a proportional bar on a shared 0 to 4M axis on the right). Only case studies use a grid: two equal columns of panels with a 12px gap.
+Content inside bands is mostly hairline rows: the experience timeline (date column, node, body), the pillar row (four columns each topped by a 1px rule whose lime segment grows on hover), the skills ledger (category over a dotted inline list), the AI-workflow list, and the users-per-product chart (product name and domain on the left, a proportional bar with the product's measured outcomes beneath it on a shared 0 to 4M axis on the right). Only case studies use a grid: two equal columns of panels with a 12px gap.
 
 Responsive behavior: the nav collapses to a menu below 860px; two-column compositions (hero 1.25fr/1fr, about, contact, case-study grid) stack below roughly 900px; the case-study dialog's label column stacks under 560px. On phones the hero keeps text first and the portrait after.
 
@@ -274,7 +274,7 @@ Live on the inverse contact band. Underline only: a 1px `onInverse` line at 25%,
 A 72px bar filled with `ground`; its bottom hairline appears (`line`) only once scrolled or when the menu is open. Left: a 40px "AR" monogram circle. Right: UI-type section links with the growing `accentInk` underline on the active or hovered link, the theme-toggle icon button, and a compact lime "Let's talk" pill. Below 860px the links move into a full-width menu of 28px title-type rows separated by faint hairlines.
 
 ### Users-per-Product Chart (signature)
-One calibrated instrument: every product's bar is a 12px `signal` pill on a shared 0 to 4M axis with `line` gridlines and caption ticks, its value in numeral type at the bar's end, and its own measured outcomes set under its name in `accentInk` caption. Bars grow to their true proportion on entry; hovering a row dims the others toward `line`.
+One calibrated instrument: every product's bar is a 12px `signal` pill on a shared 0 to 4M axis with `line` gridlines and caption ticks, its value in numeral type at the bar's end, and its own measured outcomes on a full-width caption line under the bar in `inkMuted`. Bars grow to their true proportion on entry; hovering a row dims the others toward `line`.
 
 ### Motion
 - **Easing:** expo-out `cubic-bezier(0.16, 1, 0.3, 1)` for sweeps, reveals, and growth; ease-out `cubic-bezier(0.2, 0.7, 0.2, 1)` for small state changes.

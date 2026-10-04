@@ -51,7 +51,7 @@ A personal portfolio site for Abdallah Ali Rehab, Senior Mobile Engineer (Flutte
 
 ## Evidence on Hand
 
-- Six real case studies in `assets/config.json`: WalaOne (3M+ users), Doam (1.2M+ users, government partnership), Saudi German Health (3.5M+ users, current role), WalaPlus (4M+ users), WEDDnGO (Egypt's largest wedding marketplace, Shark Tank Egypt), PDentalCore (freelance, end-to-end delivery).
+- Six real case studies in `assets/config.json`: WalaOne (3M+ users), Doam (1.2M+ users, government partnership), Saudi German Health (3.5M+ users, current role), WalaPlus (3M+ users), WEDDnGO (Egypt's largest wedding marketplace, Shark Tank Egypt), PDentalCore (freelance, end-to-end delivery).
 - Career timeline with dated roles and quantified impact per role (`lib/features/about/timeline_section.dart`).
 - Aggregate impact metrics: 7M+ combined active users, 60% faster load times, 90% test coverage, 70% fewer bug reports (`lib/features/impact/impact_section.dart`).
 - CV file at `web/cv.pdf`; avatar image at `assets/images/avatar.jpg`.

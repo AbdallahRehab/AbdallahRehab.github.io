@@ -63,7 +63,7 @@
       "name": "WalaPlus",
       "tagline": "Loyalty & Rewards App",
       "domain": "Loyalty & Rewards",
-      "scaleLabel": "4M+ users",
+      "scaleLabel": "3M+ users",
       "platforms": ["ios", "android"],
       "context": "The original WalaPlus loyalty and rewards app for employees and customers, part of the 3M+-user product suite.",
       "challenge": "Performance and security needed to be strengthened without disrupting a live, high-traffic app.",
