@@ -327,7 +327,7 @@ class _ChartRow extends StatelessWidget {
       label: period.spoken,
       excludeSemantics: true,
       child: SizedBox(
-        height: 40,
+        height: 26 + MediaQuery.textScalerOf(context).scale(14),
         child: Row(
           children: [
             SizedBox(
@@ -372,7 +372,7 @@ class _ChartRow extends StatelessWidget {
                           Positioned(
                             left: left + full - 9,
                             top: 15,
-                            child: const _PulseDot(),
+                            child: const InViewport(child: _PulseDot()),
                           ),
                       ],
                     );

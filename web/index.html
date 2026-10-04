@@ -58,7 +58,8 @@
 
     <title>Abdallah Ali Rehab | Senior Mobile Engineer, Flutter</title>
     <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#0E110C" />
+    <meta name="theme-color" content="#0E110C" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F3F2EA" media="(prefers-color-scheme: light)" />
     <style>
       html, body { margin: 0; background: #0E110C; }
       #boot {
@@ -79,7 +80,9 @@
       @keyframes spin { to { transform: rotate(360deg); } }
       @media (prefers-reduced-motion: reduce) { #boot span::after { animation: none; } }
       @media (prefers-color-scheme: light) {
-        html, body, #boot { background: #0E110C; }
+        html, body, #boot { background: #F3F2EA; }
+        #boot span { color: #151912; border-color: #CFCFC0; }
+        #boot span::after { border-top-color: #4D6B00; }
       }
     </style>
 
@@ -111,6 +114,14 @@
   </head>
   <body>
     <div id="boot" aria-hidden="true"><span>AR</span></div>
+    <noscript>
+      <main style="max-width:640px;margin:48px auto;padding:0 16px;font-family:system-ui,sans-serif;color:#EEF0E4;line-height:1.6">
+        <h1>Abdallah Ali Rehab — Senior Mobile Engineer, Flutter</h1>
+        <p>6+ years building Flutter apps for Android &amp; iOS that serve millions of users — from architecture and performance to application security and delivery. Currently Senior Mobile Engineer at MEGAMIND IT Solutions, Cairo; previously WalaPlus (Riyadh) and WEDDnGO (Cairo).</p>
+        <p>Case studies: Saudi German Health, WalaOne, WalaPlus, Doam, WEDDnGO, PDentalCore.</p>
+        <p>This site needs JavaScript. Reach me at <a style="color:#C5F04A" href="mailto:abdorehab95@gmail.com">abdorehab95@gmail.com</a>, on <a style="color:#C5F04A" href="https://www.linkedin.com/in/abdallah-ali-rehab-a71246153">LinkedIn</a>, or download the <a style="color:#C5F04A" href="cv.pdf">CV</a>.</p>
+      </main>
+    </noscript>
     <script>
       window.addEventListener("flutter-first-frame", function () {
         var b = document.getElementById("boot");

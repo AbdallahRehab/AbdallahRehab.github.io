@@ -45,6 +45,7 @@ class AiAssistedSection extends StatelessWidget {
         Reveal(
           child: Semantics(
             header: true,
+            headingLevel: 2,
             child: Text.rich(
               TextSpan(
                 children: [

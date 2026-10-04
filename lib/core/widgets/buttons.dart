@@ -74,7 +74,7 @@ class PillButton extends StatelessWidget {
     };
 
     final padding = compact
-        ? const EdgeInsets.symmetric(horizontal: 16, vertical: 9)
+        ? const EdgeInsets.symmetric(horizontal: 18, vertical: 13)
         : large
         ? const EdgeInsets.symmetric(horizontal: 28, vertical: 17)
         : const EdgeInsets.symmetric(horizontal: 22, vertical: 13);
@@ -236,16 +236,22 @@ class CircleIconButton extends StatelessWidget {
       child: Pressable(
         onTap: onPressed,
         semanticLabel: semanticLabel,
-        builder: (context, active) => AnimatedContainer(
-          duration: Space.fast,
-          curve: Space.easeOut,
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: active ? hot : idle),
+        builder: (context, active) => SizedBox.square(
+          // Hit area never below 44px; the drawn circle keeps its size.
+          dimension: size < 44 ? 44 : size,
+          child: Center(
+            child: AnimatedContainer(
+              duration: Space.fast,
+              curve: Space.easeOut,
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: active ? hot : idle),
+              ),
+              child: Icon(icon, size: size * 0.42, color: active ? hot : fg),
+            ),
           ),
-          child: Icon(icon, size: size * 0.42, color: active ? hot : fg),
         ),
       ),
     );

@@ -21,14 +21,18 @@ class Footer extends StatelessWidget {
           ),
           TextSpan(
             text: '  ·  Senior Mobile Engineer, Flutter',
-            style: AppType.caption(context).copyWith(fontSize: 14),
+            style: AppType.caption(
+              context,
+            ).copyWith(fontSize: 14, color: p.inkMuted),
           ),
         ],
       ),
     );
     final meta = Text(
       '© ${DateTime.now().year} · Built with Flutter Web',
-      style: AppType.caption(context),
+      // inkMuted, not inkFaint: the recessed footer ground is too close to
+      // inkFaint in light mode for small text.
+      style: AppType.caption(context).copyWith(color: p.inkMuted),
     );
     final top = CircleIconButton(
       icon: Icons.arrow_upward_rounded,

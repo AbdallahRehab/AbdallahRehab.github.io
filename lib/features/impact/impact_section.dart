@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
+import '../../core/portfolio_data.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/motion.dart';
 import '../../core/widgets/pressable.dart';
@@ -53,9 +51,16 @@ class _ImpactSectionState extends State<ImpactSection> {
   }
 
   Future<void> _load() async {
-    final data = json.decode(await rootBundle.loadString('assets/config.json'));
+    final List<Map<String, dynamic>> projects;
+    try {
+      projects = await PortfolioData.projects();
+    } catch (_) {
+      // The projects section reports the failure; this chart just stays
+      // empty rather than showing a second error.
+      return;
+    }
     final rows = <_Row>[];
-    for (final project in data['projects'] as List<dynamic>) {
+    for (final project in projects) {
       final label = project['scaleLabel'] as String?;
       final match = label == null ? null : _millions.firstMatch(label);
       if (match == null) continue;
@@ -198,7 +203,9 @@ class _BarRow extends StatelessWidget {
     );
 
     final track = Container(
-      height: 44,
+      // Room for the 24px figure beside the bar, scaled with the user's
+      // text size so it never runs into the next row.
+      height: 20 + MediaQuery.textScalerOf(context).scale(24),
       padding: const EdgeInsets.only(right: _labelRoom),
       child: CustomPaint(
         painter: _ScaleGrid(color: p.line, max: max),

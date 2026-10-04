@@ -79,6 +79,7 @@ class ProjectDetailsModal extends StatelessWidget {
                       children: [
                         Semantics(
                           header: true,
+                          headingLevel: 2,
                           child: Text(
                             project['name'] as String? ?? '',
                             style: AppType.h3(

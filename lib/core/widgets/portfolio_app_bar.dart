@@ -150,21 +150,26 @@ class _Monogram extends StatelessWidget {
     return Pressable(
       onTap: onTap,
       semanticLabel: 'Abdallah Ali Rehab — back to top',
-      builder: (context, active) => AnimatedContainer(
-        duration: Space.fast,
-        width: 40,
-        height: 40,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: active ? p.accentInk : p.line),
-        ),
-        child: Text(
-          'AR',
-          style: AppType.h3(
-            context,
-            size: 16,
-          ).copyWith(color: active ? p.accentInk : p.ink, height: 1),
+      builder: (context, active) => SizedBox.square(
+        dimension: 44,
+        child: Center(
+          child: AnimatedContainer(
+            duration: Space.fast,
+            width: 40,
+            height: 40,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: active ? p.accentInk : p.line),
+            ),
+            child: Text(
+              'AR',
+              style: AppType.h3(
+                context,
+                size: 16,
+              ).copyWith(color: active ? p.accentInk : p.ink, height: 1),
+            ),
+          ),
         ),
       ),
     );

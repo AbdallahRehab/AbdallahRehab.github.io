@@ -99,6 +99,7 @@ class SectionHeader extends StatelessWidget {
             constraints: BoxConstraints(maxWidth: titleMaxWidth),
             child: Semantics(
               header: true,
+              headingLevel: 2,
               child: Text(title, style: AppType.h2(context)),
             ),
           ),

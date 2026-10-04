@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../core/site_links.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/buttons.dart';
+import '../../../core/widgets/motion.dart';
 import '../../../core/widgets/pressable.dart';
 import '../../../core/widgets/section.dart';
 
@@ -78,10 +79,14 @@ class _HeroSectionState extends State<HeroSection>
                 onContact: widget.onContact,
               );
               final photo = Opacity(
+                // Faded-out content stays in the semantics tree, so screen readers
+                // reach every section before it has been scrolled into view.
+                alwaysIncludeSemantics: true,
                 opacity: _step(0.0, 0.5),
                 child: _Portrait(settle: _step(0.0, 0.9)),
               );
               final ledger = Opacity(
+                alwaysIncludeSemantics: true,
                 opacity: _step(0.55, 1),
                 child: const _Ledger(),
               );
@@ -163,6 +168,7 @@ class _HeroText extends StatelessWidget {
   }
 
   Widget _fadeUp(double t, Widget child) => Opacity(
+    alwaysIncludeSemantics: true,
     opacity: t,
     child: Transform.translate(offset: Offset(0, 16 * (1 - t)), child: child),
   );
@@ -184,6 +190,7 @@ class _HeroText extends StatelessWidget {
       children: [
         Semantics(
           header: true,
+          headingLevel: 1,
           label: 'Abdallah Ali Rehab, Senior Mobile Engineer',
           excludeSemantics: true,
           child: Column(
@@ -331,7 +338,7 @@ class _PortraitState extends State<_Portrait> {
                       // photo sits in the palette instead of glaring.
                       child: ColorFiltered(
                         colorFilter: const ColorFilter.mode(
-                          Color(0xFFCDD3BC),
+                          Palette.photoGrade,
                           BlendMode.multiply,
                         ),
                         child: Image.asset(
@@ -388,7 +395,10 @@ class _PortraitCaption extends StatelessWidget {
       children: [
         Row(
           children: [
-            const SizedBox(width: 16, child: Center(child: LiveDot())),
+            const SizedBox(
+              width: 16,
+              child: Center(child: InViewport(child: LiveDot())),
+            ),
             const SizedBox(width: 8),
             Flexible(
               child: Text(

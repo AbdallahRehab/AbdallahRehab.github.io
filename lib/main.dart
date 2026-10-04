@@ -1,4 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/theme/app_theme.dart';
@@ -17,11 +21,37 @@ import 'features/projects/projects_section.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Flutter web paints to a canvas; build the semantics tree up front so
+  // screen readers get headings, links and labels without first finding
+  // the hidden "Enable accessibility" button.
+  SemanticsBinding.instance.ensureSemantics();
+  // Faces ship in assets/google_fonts, so the first frame already renders
+  // in Bricolage/Hanken: no network fetch, no swap, no layout shift.
+  GoogleFonts.config.allowRuntimeFetching = false;
+  _registerFontLicenses();
   final prefs = await SharedPreferences.getInstance();
-  final isDark = prefs.getBool('isDarkMode') ?? true;
+  // No saved choice yet: follow the visitor's OS/browser preference.
+  final isDark =
+      prefs.getBool('isDarkMode') ??
+      WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+          Brightness.dark;
   runApp(
     PortfolioApp(initialThemeMode: isDark ? ThemeMode.dark : ThemeMode.light),
   );
+}
+
+/// The bundled faces are SIL Open Font License; register their notices so
+/// they appear in the app's license page alongside the packages.
+void _registerFontLicenses() {
+  LicenseRegistry.addLicense(() async* {
+    for (final (font, file) in [
+      ('Bricolage Grotesque', 'OFL-bricolagegrotesque.txt'),
+      ('Hanken Grotesk', 'OFL-hankengrotesk.txt'),
+    ]) {
+      final text = await rootBundle.loadString('assets/google_fonts/$file');
+      yield LicenseEntryWithLineBreaks([font], text);
+    }
+  });
 }
 
 class PortfolioApp extends StatefulWidget {

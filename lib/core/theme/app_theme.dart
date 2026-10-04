@@ -55,6 +55,13 @@ class Palette extends ThemeExtension<Palette> {
   final Color onInverse;
   final Color onInverseMuted;
 
+  /// Validation ink on the inverse band.
+  final Color onInverseError;
+
+  /// Multiply grade that pulls the studio portrait's white backdrop into
+  /// the palette. Same in both themes: the photo always sits on its scrim.
+  static const photoGrade = Color(0xFFCDD3BC);
+
   const Palette({
     required this.ground,
     required this.recessed,
@@ -72,6 +79,7 @@ class Palette extends ThemeExtension<Palette> {
     required this.inverse,
     required this.onInverse,
     required this.onInverseMuted,
+    required this.onInverseError,
   });
 
   static const dark = Palette(
@@ -91,6 +99,7 @@ class Palette extends ThemeExtension<Palette> {
     inverse: Color(0xFFEEF0E4),
     onInverse: Color(0xFF0E110C),
     onInverseMuted: Color(0xFF4E5343),
+    onInverseError: Color(0xFF9E2A1E),
   );
 
   static const light = Palette(
@@ -110,6 +119,7 @@ class Palette extends ThemeExtension<Palette> {
     inverse: Color(0xFF0E110C),
     onInverse: Color(0xFFEEF0E4),
     onInverseMuted: Color(0xFFA9AF9C),
+    onInverseError: Color(0xFFFF9C8A),
   );
 
   @override
@@ -136,6 +146,7 @@ class Palette extends ThemeExtension<Palette> {
       inverse: l(inverse, other.inverse),
       onInverse: l(onInverse, other.onInverse),
       onInverseMuted: l(onInverseMuted, other.onInverseMuted),
+      onInverseError: l(onInverseError, other.onInverseError),
     );
   }
 }

@@ -160,6 +160,7 @@ class _Pitch extends StatelessWidget {
         Reveal(
           child: Semantics(
             header: true,
+            headingLevel: 2,
             child: Text(
               'Have a mobile product that needs to scale?',
               style: AppType.h2(context).copyWith(
@@ -272,10 +273,7 @@ class _ContactForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.palette;
-    // Error ink tuned to each inverse ground so it stays readable.
-    final error = context.isDark
-        ? const Color(0xFF9E2A1E)
-        : const Color(0xFFFF9C8A);
+    final error = p.onInverseError;
 
     InputDecoration deco(String label, String hint) => InputDecoration(
       labelText: label,
@@ -290,13 +288,12 @@ class _ContactForm extends StatelessWidget {
         context,
         color: p.onInverse,
       ).copyWith(fontSize: 16, letterSpacing: 1.6),
-      hintStyle: AppType.body(
-        context,
-      ).copyWith(color: p.onInverseMuted.withValues(alpha: 0.8)),
+      hintStyle: AppType.body(context).copyWith(color: p.onInverseMuted),
       errorStyle: AppType.caption(context).copyWith(color: error),
       contentPadding: const EdgeInsets.only(top: 14, bottom: 12),
       enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: p.onInverse.withValues(alpha: 0.25)),
+        // 50% keeps the field boundary above 3:1 against the band.
+        borderSide: BorderSide(color: p.onInverse.withValues(alpha: 0.5)),
       ),
       focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(color: p.onInverse, width: 1.5),

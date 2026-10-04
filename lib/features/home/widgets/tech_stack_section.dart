@@ -102,7 +102,7 @@ class TechStackSection extends StatelessWidget {
                   'security.',
             ),
           ),
-          const Reveal(child: _Marquee()),
+          const Reveal(child: InViewport(child: _Marquee())),
           SizedBox(height: AppType.fluid(context, 40, 72)),
           PageColumn(
             child: ResponsiveGrid(
@@ -314,7 +314,13 @@ class _MarqueeState extends State<_Marquee>
             ).createShader(rect),
             blendMode: BlendMode.dstIn,
             child: SizedBox(
-              height: 74,
+              // 22px vertical padding + the label line, at the user's
+              // text scale so larger text is never clipped.
+              height:
+                  44 +
+                  MediaQuery.textScalerOf(
+                    context,
+                  ).scale(AppType.fluid(context, 18, 22) * 1.15 + 6),
               child: ClipRect(
                 child: AnimatedBuilder(
                   animation: _c,

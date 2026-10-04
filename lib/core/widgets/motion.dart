@@ -122,6 +122,9 @@ class Reveal extends StatelessWidget {
     return RevealBuilder(
       delay: delay,
       builder: (context, t) => Opacity(
+        // Faded-out content stays in the semantics tree, so screen readers
+        // reach every section before it has been scrolled into view.
+        alwaysIncludeSemantics: true,
         opacity: t.clamp(0.0, 1.0),
         child: Transform.translate(
           offset: Offset(0, (1 - t) * offset),
@@ -161,4 +164,53 @@ class CountUpText extends StatelessWidget {
       child: Text('$shown${match.group(2)}', style: style),
     );
   }
+}
+
+/// Mutes every ticker below it (looping marquees, pulsing dots) while it
+/// is scrolled out of the viewport, so ambient motion costs nothing once
+/// nobody can see it. Controllers resume where they left off.
+class InViewport extends StatefulWidget {
+  final Widget child;
+
+  const InViewport({super.key, required this.child});
+
+  @override
+  State<InViewport> createState() => _InViewportState();
+}
+
+class _InViewportState extends State<InViewport> {
+  ScrollPosition? _position;
+  bool _visible = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final next = Scrollable.maybeOf(context)?.position;
+    if (next != _position) {
+      _position?.removeListener(_check);
+      _position = next;
+      _position?.addListener(_check);
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) => _check());
+  }
+
+  void _check() {
+    if (!mounted) return;
+    final box = context.findRenderObject() as RenderBox?;
+    if (box == null || !box.attached || !box.hasSize) return;
+    final top = box.localToGlobal(Offset.zero).dy;
+    final viewport = MediaQuery.sizeOf(context).height;
+    final visible = top < viewport && top + box.size.height > 0;
+    if (visible != _visible) setState(() => _visible = visible);
+  }
+
+  @override
+  void dispose() {
+    _position?.removeListener(_check);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      TickerMode(enabled: _visible, child: widget.child);
 }
