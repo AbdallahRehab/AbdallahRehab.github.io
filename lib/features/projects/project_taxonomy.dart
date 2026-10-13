@@ -9,9 +9,9 @@ class ProjectTaxonomy {
   ProjectTaxonomy._();
 
   static const _categoryKeywords = {
-    'Architecture': ['architecture', 'dependency injection', 'clean'],
+    'Architecture': ['architecture', 'dependency injection', 'clean', 'offline'],
     'Performance': ['caching', 'profiling', 'async', 'isolate'],
-    'Security': ['secure', 'encrypt', 'security', 'threat', 'mitm'],
+    'Security': ['secure', 'encrypt', 'security', 'threat', 'mitm', 'lock'],
     'Testing': ['test', 'mocktail'],
     'Delivery': ['ci/cd', 'github actions', 'bitrise', 'codemagic', 'release'],
   };
@@ -48,6 +48,8 @@ class ProjectTaxonomy {
         return Icons.workspace_premium_outlined;
       case 'WEDDnGO':
         return Icons.favorite_border_rounded;
+      case 'Daftary':
+        return Icons.menu_book_outlined;
       default:
         return Icons.apps_rounded;
     }

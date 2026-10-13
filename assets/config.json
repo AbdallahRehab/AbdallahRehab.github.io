@@ -1,6 +1,52 @@
 {
   "projects": [
     {
+      "name": "Daftary",
+      "tagline": "People-first Personal Finance App (Open Source)",
+      "domain": "Personal Finance",
+      "platforms": ["android", "ios"],
+      "context": "A bilingual (Arabic RTL / English), offline-first Flutter app for Egyptian users. It tracks two-way money balances between people, along with occasions, income and expenses, budgets, savings goals and reports.",
+      "challenge": "In Egypt, a lot of money moves between people, not categories: a loan to a friend, rent a cousin covered, a wedding gift to return one day. Expense trackers are built around categories, so most of it lives in people's heads or in a paper daftar.",
+      "contribution": "Designed and built the whole product, spec-first: Clean Architecture across 19 feature modules, Drift (SQLite) as the source of truth with Supabase sync through a transactional outbox and conflict resolution, on-device ML Kit OCR, a PBKDF2 app lock and multi-currency money math. v1.2 adds on-device bank SMS import with review before adding, change history for every financial record, and money checks from a full accounting audit.",
+      "impact": [
+        "4,000+ automated tests across 19 feature modules",
+        "Bank SMS import: rule-based, on-device, masked and AES-GCM encrypted",
+        "Full RTL Arabic and English, light and dark, multi-currency",
+        "Signed APK releases on GitHub Actions"
+      ],
+      "technologies": ["Flutter", "Dart", "BLoC", "Clean Architecture", "Drift (SQLite)", "Supabase", "PostgreSQL + RLS", "Offline-first Sync", "On-device ML (OCR)", "PBKDF2 App Lock", "AES-GCM Encryption", "Localization (RTL)", "bloc_test · mocktail", "GitHub Actions"],
+      "storyStages": ["Spec", "Architecture", "Offline-first Sync", "On-device ML", "Accounting Audit", "Bank SMS (v1.2)"],
+      "cover": "assets/images/projects/daftary_cover.jpg",
+      "gallery": [
+        "assets/images/projects/daftary_1.jpg",
+        "assets/images/projects/daftary_2.jpg",
+        "assets/images/projects/daftary_3.jpg",
+        "assets/images/projects/daftary_4.jpg"
+      ],
+      "links": {
+        "download": "https://github.com/AbdallahRehab/Daftary/releases/latest",
+        "source": "https://github.com/AbdallahRehab/Daftary"
+      }
+    },
+    {
+      "name": "Saudi German Health",
+      "tagline": "Healthcare Mobile App",
+      "domain": "Healthcare",
+      "scaleLabel": "3.5M+ users",
+      "platforms": ["ios", "android"],
+      "context": "Large-scale healthcare mobile application for Saudi German Health, a leading hospital group — the current engagement at MEGAMIND IT Solutions.",
+      "challenge": "A legacy codebase and healthcare-grade reliability requirements meant stability and compliance had to be prioritized alongside feature velocity.",
+      "contribution": "Leading Flutter development, refactoring and modularizing the legacy codebase, implementing CI/CD and automated testing, and applying healthcare-grade security practices.",
+      "impact": [
+        "~40% overall performance improvement",
+        "Faster, more reliable release cycles via CI/CD",
+        "Healthcare-grade security hardening"
+      ],
+      "technologies": ["Flutter", "CI/CD", "Secure Storage", "Encrypted Communication"],
+      "storyStages": ["Legacy Codebase", "Refactor", "Modularize", "Optimize", "Secure", "Ship"],
+      "links": {}
+    },
+    {
       "name": "WalaOne",
       "tagline": "Loyalty & Rewards App",
       "domain": "Loyalty & Rewards",
@@ -40,24 +86,6 @@
         "ios": "https://apps.apple.com/us/app/doam-%D8%AF%D9%88%D9%85/id1635571318",
         "android": "https://play.google.com/store/apps/details?id=com.walaplus.erfan"
       }
-    },
-    {
-      "name": "Saudi German Health",
-      "tagline": "Healthcare Mobile App",
-      "domain": "Healthcare",
-      "scaleLabel": "3.5M+ users",
-      "platforms": ["ios", "android"],
-      "context": "Large-scale healthcare mobile application for Saudi German Health, a leading hospital group — the current engagement at MEGAMIND IT Solutions.",
-      "challenge": "A legacy codebase and healthcare-grade reliability requirements meant stability and compliance had to be prioritized alongside feature velocity.",
-      "contribution": "Leading Flutter development, refactoring and modularizing the legacy codebase, implementing CI/CD and automated testing, and applying healthcare-grade security practices.",
-      "impact": [
-        "~40% overall performance improvement",
-        "Faster, more reliable release cycles via CI/CD",
-        "Healthcare-grade security hardening"
-      ],
-      "technologies": ["Flutter", "CI/CD", "Secure Storage", "Encrypted Communication"],
-      "storyStages": ["Legacy Codebase", "Refactor", "Modularize", "Optimize", "Secure", "Ship"],
-      "links": {}
     },
     {
       "name": "WalaPlus",

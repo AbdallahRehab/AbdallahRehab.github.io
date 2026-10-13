@@ -27,6 +27,9 @@ class ProjectDetailsModal extends StatelessWidget {
     final impact = (project['impact'] as List<dynamic>? ?? []).cast<String>();
     final tech = (project['technologies'] as List<dynamic>? ?? [])
         .cast<String>();
+    final cover = project['cover'] as String?;
+    final gallery = (project['gallery'] as List<dynamic>? ?? [])
+        .cast<String>();
     final pad = AppType.fluid(context, 20, 40);
     final size = MediaQuery.sizeOf(context);
 
@@ -107,6 +110,21 @@ class ProjectDetailsModal extends StatelessWidget {
                   ),
                 ],
               ),
+              if (cover != null) ...[
+                const SizedBox(height: 24),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(Space.radius),
+                  child: AspectRatio(
+                    aspectRatio: 1200 / 627,
+                    child: Image.asset(
+                      cover,
+                      fit: BoxFit.cover,
+                      filterQuality: FilterQuality.medium,
+                      semanticLabel: '${project['name']} cover',
+                    ),
+                  ),
+                ),
+              ],
               const SizedBox(height: 28),
               if (facts.isNotEmpty)
                 Container(
@@ -170,6 +188,11 @@ class ProjectDetailsModal extends StatelessWidget {
                   label: 'Impact',
                   child: DashList(impact, style: _bodyStyle(context)),
                 ),
+              if (gallery.isNotEmpty)
+                _Block(
+                  label: 'Screens',
+                  child: _Gallery(images: gallery),
+                ),
               if (tech.isNotEmpty)
                 _Block(
                   label: 'Engineering',
@@ -198,7 +221,10 @@ class ProjectDetailsModal extends StatelessWidget {
                     ],
                   ),
                 ),
-              if (links['ios'] != null || links['android'] != null) ...[
+              if (links['ios'] != null ||
+                  links['android'] != null ||
+                  links['download'] != null ||
+                  links['source'] != null) ...[
                 const SizedBox(height: 24),
                 Wrap(
                   spacing: Space.gap,
@@ -217,6 +243,19 @@ class ProjectDetailsModal extends StatelessWidget {
                         variant: PillVariant.outline,
                         onPressed: () => Pressable.open(links['android']),
                       ),
+                    if (links['download'] != null)
+                      PillButton(
+                        label: 'Download APK',
+                        icon: FontAwesomeIcons.android.data,
+                        onPressed: () => Pressable.open(links['download']),
+                      ),
+                    if (links['source'] != null)
+                      PillButton(
+                        label: 'Source on GitHub',
+                        icon: FontAwesomeIcons.github.data,
+                        variant: PillVariant.outline,
+                        onPressed: () => Pressable.open(links['source']),
+                      ),
                   ],
                 ),
               ],
@@ -231,6 +270,42 @@ class ProjectDetailsModal extends StatelessWidget {
     context,
     size: 16,
   ).copyWith(color: context.palette.ink.withValues(alpha: 0.88));
+}
+
+/// Horizontally scrolling strip of portrait screenshots (4:5 slides).
+class _Gallery extends StatelessWidget {
+  final List<String> images;
+
+  const _Gallery({required this.images});
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.palette;
+    final height = AppType.fluid(context, 260, 340);
+    return SizedBox(
+      height: height,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: images.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 12),
+        itemBuilder: (context, i) => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: p.lineFaint),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Image.asset(
+            images[i],
+            height: height,
+            width: height * 0.8,
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.medium,
+            cacheHeight: 900,
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 /// Label column + body column on wide dialogs, stacked on narrow ones,
